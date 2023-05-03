@@ -24,8 +24,9 @@
     "@mui/lab": "^5.0.0-alpha.120",
     "@mui/material": "^5.12.3",
     "@mui/system": "5.11.9",
-    "@mui/x-date-pickers": "^5.0.20",
+    "@mui/x-date-pickers": "^6.3.0",
     "apexcharts": "3.37.0",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.7",
     "formik": "2.2.9",
     "next": "13.1.6",
@@ -34,8 +35,10 @@
     "react": "18.2.0",
     "react-apexcharts": "1.4.0",
     "react-dom": "18.2.0",
+    "react-google-calendar-api": "^2.2.2",
     "react-iframe": "^1.8.5",
     "simplebar-react": "^3.2.1",
+    "typescript": "^4.9.5",
     "yup": "1.0.0"
   },
   "devDependencies": {
