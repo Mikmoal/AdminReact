@@ -80,5 +80,14 @@ export const items = [
         <XCircleIcon />
       </SvgIcon>
     )
+  },
+  {
+    title: 'Calendar',
+    path: '/calendar',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserPlusIcon />
+      </SvgIcon>
+    )
   }
 ];
