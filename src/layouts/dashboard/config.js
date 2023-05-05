@@ -82,6 +82,15 @@ export const items = [
     )
   },
   {
+    title: 'Nueva Junta',
+    path: '/nuevajunta',
+    icon: (
+      <SvgIcon fontSize="small">
+        <UserPlusIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Calendar',
     path: '/calendar',
     icon: (
