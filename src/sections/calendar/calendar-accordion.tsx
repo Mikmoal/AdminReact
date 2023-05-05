@@ -7,7 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export function SimpleAccordion() {
   return (
-    <div>
+    <React.Fragment>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -17,8 +17,8 @@ export function SimpleAccordion() {
           <Typography>Junta de Hong Kong</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Participantes: ..., 
-            Encargado de minutas: ....,</Typography>
+          <Typography>Participantes: ...,</Typography>
+          <Typography>Encargado de minutas: ....,</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -30,7 +30,8 @@ export function SimpleAccordion() {
           <Typography>Junta 2</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Participantes: ..., Encargado de minutas: ....,</Typography>
+          <Typography>Participantes: ...</Typography>
+          <Typography>Encargado de minutas: ....,</Typography>
         </AccordionDetails>
       </Accordion>
       {/* <Accordion disabled>
@@ -42,6 +43,6 @@ export function SimpleAccordion() {
           <Typography>Disabled Accordion</Typography>
         </AccordionSummary>
       </Accordion> */}
-    </div>
+    </React.Fragment>
   );
 }

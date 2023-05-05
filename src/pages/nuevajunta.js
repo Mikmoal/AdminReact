@@ -14,7 +14,7 @@ const Page = () => {
         <Container maxWidth="xl">
           <Grid container spacing={3}>
             <Grid xs={12} md={6} lg={4}>
-              
+              <p>Un párrafo....</p>
             </Grid>
             <Grid xs={12} md={12} lg={8}>
               

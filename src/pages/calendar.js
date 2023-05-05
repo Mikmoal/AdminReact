@@ -1,7 +1,7 @@
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { SimpleAccordion } from "../sections/calendar/calendar-juntas.tsx";
-import { BasicDateCalendar } from "../sections/calendar/calendar-days.js";
+import { SimpleAccordion } from "../sections/calendar/calendar-accordion.tsx";
+//import { BasicDateCalendar } from "../sections/calendar/calendar-days.js";
 import { DemoApp } from "../sections/calendar/calendar-full.tsx";
 const Page = () => {
   return (
