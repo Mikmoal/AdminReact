@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Script from 'next/script';
 import { CacheProvider } from '@emotion/react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -33,7 +34,9 @@ const App = (props) => {
           name="viewport"
           content="initial-scale=1, width=device-width"
         />
+        
       </Head>
+      <Script src='https://accounts.google.com/gsi/client' async defer/>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <AuthProvider>
           <ThemeProvider theme={theme}>

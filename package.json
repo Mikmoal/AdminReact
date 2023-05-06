@@ -55,5 +55,10 @@
     "@types/react-dom": "18.0.11",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6"
+  }, 
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
   }
 }
