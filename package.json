@@ -36,6 +36,7 @@
     "formik": "2.2.9",
     "google-auth-library": "^8.8.0",
     "next": "13.1.6",
+    "next-auth": "^4.22.1",
     "nprogress": "0.2.0",
     "prop-types": "15.8.1",
     "react": "18.2.0",
@@ -55,7 +56,7 @@
     "@types/react-dom": "18.0.11",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6"
-  }, 
+  },
   "browser": {
     "fs": false,
     "os": false,
