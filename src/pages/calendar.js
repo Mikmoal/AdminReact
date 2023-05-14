@@ -1,8 +1,7 @@
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { SimpleAccordion } from "../sections/calendar/calendar-accordion.tsx";
-//import { BasicDateCalendar } from "../sections/calendar/calendar-days.js";
-import { DemoApp } from "../sections/calendar/calendar-full.tsx";
+import Calendar from "rc-year-calendar";
 const Page = () => {
   return (
     <>
@@ -19,7 +18,7 @@ const Page = () => {
               <SimpleAccordion></SimpleAccordion>
             </Grid>
             <Grid xs={12} md={12} lg={8}>
-              <DemoApp></DemoApp>
+              <Calendar></Calendar>
             </Grid>
           </Grid>
         </Container>

@@ -39,6 +39,7 @@
     "next-auth": "^4.22.1",
     "nprogress": "0.2.0",
     "prop-types": "15.8.1",
+    "rc-year-calendar": "^1.0.2",
     "react": "18.2.0",
     "react-apexcharts": "1.4.0",
     "react-dom": "18.2.0",
@@ -61,5 +62,8 @@
     "fs": false,
     "os": false,
     "path": false
+  },
+  "overrides": {
+    "react": "18.2.0"
   }
 }
