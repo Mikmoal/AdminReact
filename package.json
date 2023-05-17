@@ -35,6 +35,7 @@
     "dayjs": "^1.11.7",
     "formik": "2.2.9",
     "google-auth-library": "^8.8.0",
+    "googleapis": "^118.0.0",
     "next": "13.1.6",
     "next-auth": "^4.22.1",
     "nprogress": "0.2.0",
