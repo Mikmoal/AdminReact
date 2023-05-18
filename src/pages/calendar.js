@@ -1,8 +1,8 @@
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { SimpleAccordion } from "../sections/calendar/calendar-accordion.tsx";
+import { AccordionJuntas } from "../sections/calendar/AccordionJuntas.tsx";
 import Calendar from "rc-year-calendar";
-import IndeterminateCheckbox from "../sections/calendar/calendarios-checkbox";
+import CalendarList from "../sections/calendar/CalendarList";
 const Page = () => {
   return (
     <>
@@ -16,11 +16,11 @@ const Page = () => {
         <Container maxWidth="xl">
           <Grid container spacing={3}>
             <Grid xs={12} md={6} lg={4}>
-              <SimpleAccordion></SimpleAccordion>
-              <IndeterminateCheckbox/>
+              {/* <AccordionJuntas/> */}
+              <CalendarList/>
             </Grid>
             <Grid xs={12} md={12} lg={8}>
-              <Calendar></Calendar>
+              <Calendar/>
             </Grid>
           </Grid>
         </Container>

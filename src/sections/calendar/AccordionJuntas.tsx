@@ -5,7 +5,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-export function SimpleAccordion() {
+export function AccordionJuntas() {
   return (
     <React.Fragment>
       <Accordion>
