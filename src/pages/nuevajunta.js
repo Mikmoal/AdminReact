@@ -1,5 +1,6 @@
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
+import MyPage from "../sections/nuevajunta/form";
 
 const Page = () => {
   return (
@@ -15,6 +16,7 @@ const Page = () => {
           <Grid container spacing={3}>
             <Grid xs={12} md={6} lg={4}>
               <p>Un párrafo....</p>
+              <MyPage />
             </Grid>
             <Grid xs={12} md={12} lg={8}>
               

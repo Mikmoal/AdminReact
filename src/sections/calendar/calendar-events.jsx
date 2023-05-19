@@ -1,47 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { CLIENT_ID, API_KEY, CALENDAR_ID, SCOPES } from '../../../config';
 import { google } from 'googleapis';
 
 const CalendarEvents = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    const loadEvents = async () => {
+    const getEvents = async () => {
+      const auth = new google.auth.GoogleAuth({
+        // Coloca aquí tu clave de API de Google
+        keyFile: '../../../credentials/google-calendar-credentials.json',
+        scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
+      });
+
+      const calendar = google.calendar({ version: 'v3', auth });
+
       try {
-        // Autenticación
-        const auth = await google.auth.getClient({
-          clientId: CLIENT_ID,
-          apiKey: API_KEY,
-          scope: SCOPES
-        });
-
-        // Crear instancia de la API de Google Calendar
-        const calendar = google.calendar({ version: 'v3', auth });
-
-        // Obtener eventos del calendario
         const response = await calendar.events.list({
-          calendarId: CALENDAR_ID,
+          calendarId: 'miguel.morales@racingcargo.com', // Puedes reemplazarlo con el ID de tu calendario si no es el principal
           timeMin: new Date().toISOString(),
-          maxResults: 10,
+          maxResults: 10, // Número máximo de eventos a obtener
           singleEvents: true,
-          orderBy: 'startTime'
+          orderBy: 'startTime',
         });
 
-        setEvents(response.data.items);
+        const events = response.data.items;
+        setEvents(events);
       } catch (error) {
-        console.error('Error al cargar los eventos:', error);
+        console.error('Error al obtener los eventos:', error);
       }
     };
 
-    loadEvents();
+    getEvents();
   }, []);
 
   return (
     <div>
-      <h2>Eventos del calendario:</h2>
+      <h1>Eventos del calendario</h1>
       <ul>
         {events.map((event) => (
-          <li key={event.id}>{event.summary}</li>
+          <li key={event.id}>
+            <strong>{event.summary}</strong> - {event.start.dateTime}
+          </li>
         ))}
       </ul>
     </div>

@@ -1,0 +1,123 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Nueva Minuta</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c420906ffa.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="nueva_minuta.css">
+</head>
+<body>
+
+    <header class="head">
+        <div class="head__contenedor">
+            <div class="head__logo">
+                <img src="logo.png" alt="racingcargo-logo">
+            </div>
+        </div>
+    </header>
+    <div id="minuta">
+        <div class="minuta__contenedor">
+            <div class="minuta__header">
+
+                <div class="minuta__campos">
+                    <label for="minuta"># Minuta</label>
+                    <input type="text" id="numeroMinuta">
+                </div>
+
+                <div class="minuta__campos">
+                    <label for="fecha">Fecha</label>
+                    <input type="datetime-local" id="fechaMinuta">
+                </div>
+
+                <div class="minuta__campos">
+                    <label for="encargadoMinuta">Encargado de Minuta</label><!-- inyectar manualmente  -->
+                    <input type="text" id="encargadoMinuta">
+                </div>
+
+                <div class="minuta__campos">
+                    <label for="estatus">Estatus de Minuta</label><!-- inyectar manualmente  -->
+                    <select name="estatus" id="estatus">
+                        <option value="estatusOpcion">Pendiente</option>
+                        <option value="estatusOpcion">En Progreso</option>
+                        <option value="estatusOpcion">Completada</option>
+                    </select>
+                </div>
+
+                <div class="minuta__campos">
+                    <label for="descripcion">Descripcion</label><!-- inyectar manualmente  -->
+                    <textarea class="txArea" name="descripcion" id="descripcion" cols="30" rows="10"></textarea>
+                </div>
+
+
+
+            </div>
+
+            <div class="asignarTaera">
+                <form class="asignarTaera__formulario" action="" method="post" id="agregarTarea">
+                    <div class="asignarTaera__grid">
+
+                        <div class="asignarTaera__campo">
+                            <label for="tarea">Tarea</label><!-- inyectar manualmente  -->
+                            <textarea class="txArea" name="tarea" id="tarea" cols="30" rows="10" placeholder="Escribe una tarea..." maxlength="90"></textarea>
+                        </div>
+
+
+                        <div class="asignarTaera__campo">
+                            <label for="fechaCompromiso">Fecha Compromiso</label>
+                            <input type="date" id="fechaCompromiso">
+                        </div>
+
+                        <div class="asignarTaera__campo">
+                            <label for="asignado">Asignar</label>
+                            <select class="asignarTarea__input" class="asignarTarea__asignadoA" id="asignadoId">
+                                <option class="asignarTarea__option">Alan Chávez</option>
+                                <option class="asignarTarea__option">Antonio Gonzalez</option>
+                                <option class="asignarTarea__option">Enrique Cristerna</option>
+                                <option class="asignarTarea__option">Miguel Morales</option>
+                                <option class="asignarTarea__option">Javier Huitrón</option>
+                            </select>
+                        </div>
+
+                        <div class="asignarTaera__campo">
+                            <label for="estatus">Status</label>
+                            <select class="asignarTarea__input" class="asignarTarea__asignadoA" id="statusId">
+                                <option class="asignarTarea__option">Pendiente</option>
+                                <option class="asignarTarea__option">En Progreso</option>
+                                <option class="asignarTarea__option">Completado</option>
+                            </select>
+                        </div>
+
+
+                        <div class="asignarTaera__campo insertarAlerta" id="insertarAlerta"></div>
+
+                        <button type="submit" class="btnTarea asignarTaera__campo" >Agregar</button>
+                    </div> <!--Cierre del GRID-->
+                </form>
+            </div>
+
+
+
+
+            <div class="minuta">
+                <div class="minuta__info">
+                    <div class="minuta__campo">
+
+                    </div>  
+                </div>
+                <div class="tareasAsignadas">
+                    <h2>Tareas Agregadas</h2>
+                    <div id="tareasAsignadas"></div> <!-- Inyectar aqui tareas-->
+                </div>
+            </div>
+
+        </div>
+    </div> <!--#contenido-->
+
+    <!-- <script src="js/app.js"></script> -->
+    <script src="nueva minuta.js"></script>
+</body>
+
