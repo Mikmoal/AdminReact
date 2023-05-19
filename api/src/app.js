@@ -53,7 +53,7 @@ server.get("/calendar", (req, res) => {
         res.send(JSON.stringify({ error: error }));
       } else {
         if (result.data.items.length) {
-          res.send(JSON.stringify({ events: result.data.items }));
+          res.send(JSON.stringify(result.data.items));
         } else {
           res.send(JSON.stringify({ message: "No upcoming events found." }));
         }

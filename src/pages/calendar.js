@@ -3,7 +3,7 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 //import { AccordionJuntas } from "../sections/calendar/AccordionJuntas.tsx";
 import Calendar from "rc-year-calendar";
 import CalendarList from "../sections/calendar/CalendarList";
-import CalendarEventsR from "../sections/calendar/CalendarEvents.jsx";
+// import CalendarEventsR from "../sections/calendar/CalendarEvents.jsx";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
 const Page = () => {
@@ -26,7 +26,6 @@ const Page = () => {
               <Grid xs={12} md={12} lg={10}>
                 <Calendar />
               </Grid>
-              <CalendarEventsR/>
 
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
