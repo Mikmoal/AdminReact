@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux"
 import { getCalendarEvents } from "../../redux/actions";
 
-export default function CalendarLists() {
+export default function CalendarList() {
   //Aqui se llama a la API para traer los calendarios
   let dispatch = useDispatch();
 

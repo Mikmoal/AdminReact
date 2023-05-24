@@ -11,6 +11,7 @@ export const FAIL = "FAIL";
 export const LOADING = "LOADING";
 export const CLEAN = "CLEAN";
 export const GET_CALENDAR_EVENTS = "GET_CALENDAR_EVENTS";
+export const GET_OTHER_CALENDARS = "GET_OTHER_CALENDARS";
 
 export const getVG = () => async (dispatch) => {
   await axios
@@ -39,6 +40,8 @@ export const getCalendarEvents = () => async (dispatch) => {
       return error;
     });
 };
+
+
 
 export const getName = (name) => async (dispatch) => {
   try {

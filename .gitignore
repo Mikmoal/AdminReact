@@ -25,6 +25,9 @@ out
 config.js
 /config.js
 credentials
+credentials.json
+*.json
+!package.json
 
 
 npm-debug.log*

@@ -9,7 +9,8 @@ import {
   GET_G,
   ORDER_BY,
   ADD,
-  GET_CALENDAR_EVENTS
+  GET_CALENDAR_EVENTS,
+  GET_OTHER_CALENDARS
 } from "./actions";
 // import { A_Z, Z_A } from "../constants";
 
@@ -22,11 +23,17 @@ const initialState = {
   newVG: {},
   error: "",
   loading: false,
-  calendar_events: []
+  calendar_events: [],
+  other_calendars: []
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_OTHER_CALENDARS:
+      return{
+        ...state,
+        other_calendars: action.payload
+      }
     case GET_CALENDAR_EVENTS:
       return{
         ...state,

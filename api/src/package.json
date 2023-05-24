@@ -1,0 +1,15 @@
+{
+  "name": "macewindu",
+  "version": "1.0.0",
+  "description": "NodeJS package to use the Google API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Miguel Morales",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "googleapis": "^105.0.0"
+  }
+}
