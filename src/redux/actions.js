@@ -27,6 +27,20 @@ export const getVG = () => async (dispatch) => {
     });
 };
 
+export const getOtherCalendars = () => async (dispatch) => {
+  await axios
+    .get("http://localhost:3001")
+    .then((response) => {
+      dispatch({
+        type: GET_OTHER_CALENDARS,
+        payload: response.data,
+      });
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
 export const getCalendarEvents = () => async (dispatch) => {
   await axios
     .get("http://localhost:3001/calendar")
@@ -86,18 +100,6 @@ export const create = (payload) => async (dispatch) => {
   }
 };
 
-export const getGenres = () => async (dispatch) => {
-  try {
-    await axios.get("http://localhost:3001/genres").then((response) => {
-      dispatch({
-        type: GET_G,
-        payload: response.data,
-      });
-    });
-  } catch (error) {
-    return error;
-  }
-};
 
 export function filterVG(payload) {
   return {
@@ -106,12 +108,6 @@ export function filterVG(payload) {
   };
 }
 
-export function filterG(payload) {
-  return {
-    type: FILTER_G,
-    payload,
-  };
-}
 
 export function orderBy(payload) {
   return {

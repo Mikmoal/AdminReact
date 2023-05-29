@@ -13,6 +13,8 @@ const path = require("path");
 const process = require("process");
 const { authenticate } = require("@google-cloud/local-auth");
 const { google } = require("googleapis");
+const { calendar } = require("googleapis/build/src/apis/calendar/index.js");
+const { auth } = require("google-auth-library");
 
 server.name = "API";
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
@@ -90,107 +92,86 @@ async function authorize() {
   return client;
 }
 
+async function listEvents(auth) {
+  const calendar = google.calendar({ version: "v3", auth });
+  const res = await calendar.calendarList.list({});
+  const listaDeCalendarios = res.data.items;
+  if (!listaDeCalendarios || listaDeCalendarios.length === 0) {
+    console.log("No calendars found.");
+    return;
+  }
+  console.log("List of calendars: ");
+  listaDeCalendarios.map((cal, i) => {
+    console.log(`${i}: ${cal.summary}`);
+  });
+
+  // await listaDeCalendarios.forEach((cal) => {
+  //   cal.events = getEvents(auth, cal.id);
+  //   console.log("Aqui se agregaron los eventos del calendario " + cal.summary);
+  // });
+
+  return listaDeCalendarios;
+}
+
+async function getEventsLittle(calendar, id) {
+  const res = await calendar.events.list({
+    calendarId: id,
+    timeMin: new Date().toISOString(),
+    maxResults: 10,
+    singleEvents: true,
+    orderBy: "startTime",
+  });
+  return res.data;
+}
+
+async function getEvents(auth, arrCalendars) {
+  const calendar = google.calendar({ version: "v3", auth });
+  const arrayConEventos = []
+
+  for (let index = 0; index < arrCalendars.length; index++) {
+    const res = await getEventsLittle(calendar, arrCalendars[index].id);
+    arrayConEventos.push(res);
+  }
+  //console.log(arrayConEventos);
+  // map array to promises
+  // const promises = await arrCalendars.map((el) => {
+  //   const res = getEventsLittle(calendar, el.id);
+  //   const events = res.data;
+  //   if (!events || events.length === 0) {
+  //     console.log("No upcoming events found.");
+  //     return;
+  //   }
+  //   console.log("Upcoming 10 events:");
+  //   events.map((event, i) => {
+  //     const start = event.start.dateTime || event.start.date;
+  //     console.log(`${start} - ${event.summary}`);
+  //   });
+
+  //   return events;
+  // });
+  // // wait until all promises are resolved
+  // await Promise.all(promises);
+  // console.log("Done!");
+
+   return arrayConEventos;
+}
+
 //// RUTAS
 server.get("/", async (req, res) => {
-  // try {
-  //   const result = main();
-  //   res.status(200).json(result);
-  // } catch (error) {
-  //   res.status(400).json({ error: error.message });
-  // }
+  try {
+    // const result = await authorize().then(listEvents).then(getEvents);
 
-  /**
-   * Lists the next 10 events on the user's primary calendar.
-   * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
-   */
-  async function listEvents(auth) {
-    const calendar = google.calendar({ version: "v3", auth });
-    const res = await calendar.calendarList.list({});
-    const listaDeCalendarios = res.data.items;
-    if (!listaDeCalendarios || listaDeCalendarios.length === 0) {
-      console.log("No calendars found.");
-      return;
-    }
-    console.log("List of calendars: ");
-    listaDeCalendarios.map((cal, i) => {
-      console.log(`${i}: ${cal.summary}`);
-    });
+    const auth = await authorize();
+    const calendars = await listEvents(auth);
+    const events = await getEvents(auth, calendars);
+
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-
-  authorize().then(listEvents).catch(console.error);
 });
 
-// server.get("/calendar", async (req, res) => {
-//   const auth = new google.auth.GoogleAuth({
-//     // Scopes can be specified either as an array or as a single, space-delimited string.
-//     keyFile: GOOGLE_APPLICATION_CREDENTIALS,
-//     scopes: ["https://www.googleapis.com/auth/calendar"],
-//   });
-
-//   // SETTING AUTH AS A GLOBAL OPTION
-//   const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
-
-//   // set auth as a global default
-//   google.options({
-//     auth: oauth2Client,
-//   });
-
-//   // Acquire an auth client, and bind it to all future calls
-//   const authClient = await auth.getClient();
-//   const project = await auth.getProjectId();
-
-//   await calendar.calendarList.list(
-//     { project, auth: authClient, showHidden: true },
-//     (err, response) => {
-//       if (err) {
-//         console.error("Error al obtener los calendarios:", err);
-//         res.send(JSON.stringify({ error: err }));
-//         return;
-//       }
-
-//       const calendars = response;
-//       if (calendars.length) {
-//         console.log("Lista de calendarios:");
-//         calendars.forEach((calendar) => {
-//           console.log(`${calendar.summary} (${calendar.id})`);
-//         });
-//         res.send(JSON.stringify(response));
-//       } else {
-//         console.log("No se encontraron calendarios.");
-//         res.send(JSON.stringify(response));
-//       }
-//     }
-//   );
-
-  // try {
-  //   const data = await axios.get(`https://www.googleapis.com/calendar/v3/users/me/calendarList`);
-  //   res.status(200).json(data);
-  // } catch (error) {
-  //   res.status(400).json({ error: error.message });
-  // }
-
-  // METODO PARA TRAER EVENTOS
-  // calendar.events.list(
-  //   {
-  //     calendarId: GOOGLE_CALENDAR_ID,
-  //     timeMin: new Date().toISOString(),
-  //     maxResults: 10,
-  //     singleEvents: true,
-  //     orderBy: "startTime",
-  //   },
-  //   (error, result) => {
-  //     if (error) {
-  //       res.send(JSON.stringify({ error: error }));
-  //     } else {
-  //       if (result.data.items.length) {
-  //         res.send(JSON.stringify(result.data.items));
-  //       } else {
-  //         res.send(JSON.stringify({ message: "No upcoming events found." }));
-  //       }
-  //     }
-  //   }
-  // );
-//});
+// METODO PARA TRAER EVENTOS
 
 // server.use("/", routes);
 

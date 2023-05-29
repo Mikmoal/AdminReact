@@ -78,13 +78,6 @@ export const TopNav = (props) => {
             direction="row"
             spacing={2}
           >
-            <Tooltip title="Contacts">
-              <IconButton>
-                <SvgIcon fontSize="small">
-                  <UsersIcon />
-                </SvgIcon>
-              </IconButton>
-            </Tooltip>
             <Tooltip title="Notifications">
               <IconButton>
                 <Badge
@@ -98,24 +91,9 @@ export const TopNav = (props) => {
                 </Badge>
               </IconButton>
             </Tooltip>
-            <Avatar
-              onClick={accountPopover.handleOpen}
-              ref={accountPopover.anchorRef}
-              sx={{
-                cursor: 'pointer',
-                height: 40,
-                width: 40
-              }}
-              src="/assets/avatars/avatar-siegbert-gottfried.png"
-            />
           </Stack>
         </Stack>
       </Box>
-      <AccountPopover
-        anchorEl={accountPopover.anchorRef.current}
-        open={accountPopover.open}
-        onClose={accountPopover.handleClose}
-      />
     </>
   );
 };

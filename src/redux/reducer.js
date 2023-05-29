@@ -10,7 +10,7 @@ import {
   ORDER_BY,
   ADD,
   GET_CALENDAR_EVENTS,
-  GET_OTHER_CALENDARS
+  GET_OTHER_CALENDARS,
 } from "./actions";
 // import { A_Z, Z_A } from "../constants";
 
@@ -24,21 +24,40 @@ const initialState = {
   error: "",
   loading: false,
   calendar_events: [],
-  other_calendars: []
+  other_calendars: [],
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_OTHER_CALENDARS:
-      return{
+      let idIncremental = 0;
+      let stringName = "";
+      let stringLocation = "Puebla, Mexico";
+      let stringStartDate = "";
+      let stringEndDate = "";
+      const eventsArrFromCalendarZero = action.payload[0].items.map((item) => {
+        stringName = item.summary;
+        stringStartDate = item.start.date;
+        stringEndDate = item.end.date;
+
+        return {
+          id: idIncremental++,
+          name: stringName,
+          location: stringLocation,
+          startDate: new Date(stringStartDate),
+          endDate: new Date(stringEndDate),
+        };
+      });
+      return {
         ...state,
-        other_calendars: action.payload
-      }
+        other_calendars: action.payload,
+        calendar_events: eventsArrFromCalendarZero
+      };
     case GET_CALENDAR_EVENTS:
-      return{
+      return {
         ...state,
-        calendar_events: action.payload
-      }
+        calendar_events: action.payload,
+      };
     case GET_VG:
       return {
         ...state,
@@ -76,9 +95,9 @@ const reducer = (state = initialState, action) => {
         ...state,
         videogames: orderAz,
       };
-    case FILTER_G: 
+    case FILTER_G:
       let allG = [...state.genresState];
-      
+
       let aux2 =
         action.payload === "All Genres"
           ? allG
@@ -92,8 +111,7 @@ const reducer = (state = initialState, action) => {
       let allVG = [...state.videogamesClean];
       let aux;
       console.log(allVG);
-      if (action.payload === "All Videogames")
-        return { ...state, videogames: allVG };
+      if (action.payload === "All Videogames") return { ...state, videogames: allVG };
       if (action.payload === "Videogames api") {
         aux = allVG.filter((e) => Number(e.id));
       }
@@ -107,7 +125,7 @@ const reducer = (state = initialState, action) => {
         videogames: aux,
       };
     case DETAIL:
-      console.log(action.payload)
+      console.log(action.payload);
       return {
         ...state,
         Details: action.payload,

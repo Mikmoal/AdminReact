@@ -30,21 +30,26 @@ const App = (props) => {
     <Provider store={store}>
       <CacheProvider value={emotionCache}>
         <Head>
-          <title>Racing Cargo Kit</title>
+          <title>Racing</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <Script src="https://accounts.google.com/gsi/client" async defer />
+        {/* <Script src="https://accounts.google.com/gsi/client" async defer /> */}
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <AuthProvider>
-            <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
               <CssBaseline />
+              {
+                getLayout(<Component {...pageProps} />)
+              }
+        </ThemeProvider>
+          {/* <AuthProvider>
+            
               <AuthConsumer>
                 {(auth) =>
-                  auth.isLoading ? <SplashScreen /> : getLayout(<Component {...pageProps} />)
+                  auth.isLoading ? <SplashScreen /> : 
                 }
-              </AuthConsumer>
-            </ThemeProvider>
-          </AuthProvider>
+              </AuthConsumer> */}
+            
+          {/* </AuthProvider> */}
         </LocalizationProvider>
       </CacheProvider>
     </Provider>
