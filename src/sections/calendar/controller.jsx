@@ -3,8 +3,7 @@ import React from 'react';
 import axios from 'axios';
 
 function getData(_, requestOptions) {
-  const PUBLIC_KEY = 'AIzaSyBKIc81ZmllrFoT3fEUJkZquDIs5Za5CLw';
-  const CALENDAR_ID = 'miguel.morales@racingcargo.com';
+  
   const dataUrl = ['https://www.googleapis.com/calendar/v3/calendars/',
     CALENDAR_ID, '/events?key=', PUBLIC_KEY].join('');
 

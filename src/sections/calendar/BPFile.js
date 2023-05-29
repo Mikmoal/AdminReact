@@ -1,4 +1,4 @@
-<GoogleOAuthProvider clientId="363684052179-ddqp5vv08v9rnfp3hq3f88qn8go4pote.apps.googleusercontent.com">
+<GoogleOAuthProvider clientId="3ntent.com">
         <Box
           component="main"
           sx={{

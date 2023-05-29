@@ -5,8 +5,7 @@ import React, { useRef, useEffect, useState } from 'react';
 
 const CalendarEventsR = () => {
     // TODO(developer): Set to client ID and API key from the Developer Console
-    const CLIENT_ID = '363684052179-ddqp5vv08v9rnfp3hq3f88qn8go4pote.apps.googleusercontent.com';
-    const API_KEY = 'AIzaSyBKIc81ZmllrFoT3fEUJkZquDIs5Za5CLw';
+    
 
     // Discovery doc URL for APIs used by the quickstart
     const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest';
