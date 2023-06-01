@@ -33,7 +33,6 @@ const App = (props) => {
           <title>Racing</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        {/* <Script src="https://accounts.google.com/gsi/client" async defer /> */}
         <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeProvider theme={theme}>
               <CssBaseline />
