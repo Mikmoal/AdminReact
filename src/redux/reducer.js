@@ -1,56 +1,75 @@
-import { GET_CALENDAR_EVENTS, GET_OTHER_CALENDARS } from "./actions";
+import { GET_OTHER_CALENDARS, SET_CALENDAR_EVENTS, REMOVE_CALENDAR_EVENTS } from "./actions";
 
 const initialState = {
-  calendar_events: [],
-  other_calendars: [],
+  calendarsRaw: [],
+  calendarsFixed: [],
+  calendariosSeleccionados: [],
 };
 
 const reducer = (state = initialState, action) => {
   const fixEvents = (payload) => {
+    //Función recibe el payload del backend con toda la data de la api de Google Calendar
+    //luego genera un array de objetos con el id del calendario y events cuya propiedad tiene los eventos ya filtrados
+    // para mandarlos al rc-calendar-react
     //payload = [{…}, {…}, {…}, {…}, {…}]
-    const eventsArr = payload.map((calendar) => { // [ [{},{},{}], [], [], [] ]
 
+    const eventsArr = payload.map((calendar) => {
+      // const arr = [{
+      //   id: calendar.etag,
+      //   events: [{},{},{}]
+      // },{},{},{}]
       let idIncremental = 0;
       let stringName = "";
       let stringLocation = "Puebla, Mexico";
       let stringStartDate = "";
       let stringEndDate = "";
 
-      const eventsFromOneCalendar = calendar.items.map((element) => { // [{eventoArreglado},{},{} ]
+      const eventsArrayFromOneCalendar = calendar.items.map((element) => {
+        // [{eventoArreglado},{},{} ]
         stringName = element.summary;
-        stringStartDate = element.start.date || element.start.dateTime.slice(0,10);
-        stringEndDate = element.end.date || element.end.dateTime.slice(0,10);
+        stringStartDate = element.start.date || element.start.dateTime.slice(0, 10);
+        stringEndDate = element.end.date || element.end.dateTime.slice(0, 10);
         return {
           id: idIncremental++,
           name: stringName,
           location: stringLocation,
-          startDate: new Date(stringStartDate),
-          endDate: new Date(stringStartDate),
+          startDate: new Date(stringEndDate),
+          endDate: new Date(stringEndDate),
         };
       });
-      
-      return eventsFromOneCalendar;
 
+      return {
+        id: calendar.etag,
+        events: eventsArrayFromOneCalendar,
+      };
     });
 
-    console.log(`Se ha ejecutado fixEvents: ${eventsArr[0][0]}`)
-    return eventsArr;
-
+    return eventsArr; //  [ {id:id, events:[{},{},{}] }, {}, {}, {} ]
   };
 
+  const seleccionarCalendarioConEventos = (id) => {
+    const calendarioEncontrado = state.calendarsFixed.find((el) => el.id === id);
+    return [calendarioEncontrado];
+  };
 
   switch (action.type) {
     case GET_OTHER_CALENDARS:
       return {
         ...state,
-        other_calendars: action.payload,
-        calendar_events: fixEvents(action.payload),
+        calendarsRaw: action.payload,
+        calendarsFixed: fixEvents(action.payload),
       };
 
-    case GET_CALENDAR_EVENTS:
+    case SET_CALENDAR_EVENTS:
       return {
         ...state,
-        calendar_events: action.payload,
+        calendariosSeleccionados: seleccionarCalendarioConEventos(action.payload)
+      };
+
+    case REMOVE_CALENDAR_EVENTS:
+      return {
+        ...state,
+        calendariosSeleccionados: state.calendariosSeleccionados.filter(el => el.id !== action.payload),
       };
 
     default:

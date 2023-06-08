@@ -117,7 +117,7 @@ async function getEventsLittle(calendar, id) {
   const res = await calendar.events.list({
     calendarId: id,
     timeMin: new Date().toISOString(),
-    maxResults: 10,
+    maxResults: 20,
     singleEvents: true,
     orderBy: "startTime",
   });

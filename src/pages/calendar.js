@@ -13,16 +13,25 @@ const Page = () => {
     dispatch(getOtherCalendars());
   }, [dispatch]);
 
-  const calendarsArr = useSelector((state) => state.other_calendars);
-  const allEventsArrFrom = useSelector((state) => state.calendar_events);
-  if (allEventsArrFrom.length) {
-    console.log("Aqui el array de eventos:")
-    console.log(allEventsArrFrom[2])
+  const calendarsRaw = useSelector((state) => state.calendarsRaw);
+  const calendariosSeleccionados = useSelector((state) => state.calendariosSeleccionados);
+  let calendariosSeleccionadosClean = []
+  if (calendariosSeleccionados.length) {
+    console.log("Aqui calendariosSeleccionados:")
+    console.log(calendariosSeleccionados)
+
+    // Originalmente habria [{id,events},{id,events},...]
+    // transformar el estado de calendariosSeleccionados a [ {},{}] array de puros eventos
+
+    calendariosSeleccionados.map(el => {
+      calendariosSeleccionadosClean = [...el.events]
+    })
+
   }
  
   return (
     <>
-      {!calendarsArr.length && !allEventsArrFrom.length ? (
+      {!calendarsRaw.length ? (
         <div>
           <p>Cargando...</p>
         </div>
@@ -31,17 +40,17 @@ const Page = () => {
           component="main"
           sx={{
             flexGrow: 1,
-            py: 8,
+            py: 2,
           }}
         >
           <Container maxWidth="xl">
             <Grid container spacing={3}>
               <Grid xs={12} md={8} lg={3}>
-                <CalendarList calendars={calendarsArr} events={allEventsArrFrom} />
+                <CalendarList calendars={calendarsRaw} />
               </Grid>
 
               <Grid xs={13} md={13} lg={9}>
-                <Calendar dataSource={allEventsArrFrom[1]}/>
+                <Calendar dataSource={calendariosSeleccionadosClean}/>
               </Grid>
             </Grid>
           </Container>

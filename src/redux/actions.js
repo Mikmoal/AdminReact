@@ -1,7 +1,7 @@
 import axios from "axios";
-export const GET_CALENDAR_EVENTS = "GET_CALENDAR_EVENTS";
 export const GET_OTHER_CALENDARS = "GET_OTHER_CALENDARS";
-
+export const SET_CALENDAR_EVENTS = "SET_CALENDAR_EVENTS";
+export const REMOVE_CALENDAR_EVENTS = "REMOVE_CALENDAR_EVENTS";
 
 export const getOtherCalendars = () => async (dispatch) => {
   await axios
@@ -17,16 +17,11 @@ export const getOtherCalendars = () => async (dispatch) => {
     });
 };
 
-export const getCalendarEvents = () => async (dispatch) => {
-  await axios
-    .get("http://localhost:3001/calendar")
-    .then((response) => {
-      dispatch({
-        type: GET_CALENDAR_EVENTS,
-        payload: response.data,
-      });
-    })
-    .catch((error) => {
-      return error;
-    });
-};
+export const seleccionarCalendarios = (calendarios) => ({
+  type: SET_CALENDAR_EVENTS,
+  payload: calendarios,
+});
+export const quitarCalendarios = (calendarios) => ({
+  type: REMOVE_CALENDAR_EVENTS,
+  payload: calendarios
+})
