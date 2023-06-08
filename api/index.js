@@ -20,7 +20,13 @@
 //index.js code for integrating Google Calendar
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
-// const { getGenresController } = require("./src/controllers/genreController.js"); //ruta de calendarios
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.crt')
+};
 
 // Syncing all the models at once.
 conn
@@ -29,7 +35,7 @@ conn
   //   getGenresController();
   // })
   .then(() => {
-    server.listen(3001, () => {
+    https.createServer(options, server).listen(3001, () => {
       console.log("%s listening at 3001"); // eslint-disable-line no-console
     });
   });
