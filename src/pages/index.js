@@ -3,26 +3,23 @@ import Script from "next/script";
 import { subDays, subHours } from "date-fns";
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { OverviewBudget } from "src/sections/overview/overview-budget";
-import { OverviewLatestOrders } from "src/sections/overview/overview-latest-orders";
-import { OverviewLatestProducts } from "src/sections/overview/overview-latest-products";
-import { OverviewSales } from "src/sections/overview/overview-sales";
-import { OverviewTasksProgress } from "src/sections/overview/overview-tasks-progress";
-import { OverviewTotalCustomers } from "src/sections/overview/overview-total-customers";
-import { OverviewTotalProfit } from "src/sections/overview/overview-total-profit";
-import { OverviewTraffic } from "src/sections/overview/overview-traffic";
-import { GoogleLogin } from "@react-oauth/google";
+import { OverviewJuntas } from "../sections/overview/overview-juntas";
 import { useRouter } from "next/router";
+import { useSession, signIn } from "next-auth/react";
+import { redirect } from "next/dist/server/api-utils";
+import GoogleLoginButton from "../components/login-btn";
+
+
 
 const now = new Date();
 
 const Page = () => {
   const router = useRouter();
+
   return (
     <>
       <Head>
-        <title>Index | Racing Cargo</title>
-        <Script src="https://accounts.google.com/gsi/client" async defer></Script>
+        <title>Overview | Racing Cargo</title>
       </Head>
       <Box
         component="main"
@@ -33,21 +30,31 @@ const Page = () => {
       >
         <Container maxWidth="xl">
           <Grid container spacing={3}>
-            <Grid xs={12} md={6} lg={4}>
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  console.log(credentialResponse);
-                  router
-                    .replace({
-                      pathname: "/calendar",
-                      // query: router.asPath !== "/" ? { continueUrl: router.asPath } : undefined,
-                    })
-                    .catch(console.error);
-                }}
-                onError={() => {
-                  console.log("Login Failed");
-                }}
-              />
+            <Grid xs={12} md={12} lg={8}>
+              <OverviewJuntas 
+              orders={[
+                {
+                  id: 'f69f88012978187a6c12897f',
+                  ref: 'DEV1049',
+                  amount: 30.5,
+                  customer: {
+                    name: 'Ekaterina Tankova'
+                  },
+                  createdAt: 1555016400000,
+                  status: 'pending'
+                },
+                {
+                  id: '9eaa1c7dd4433f413c308ce2',
+                  ref: 'DEV1048',
+                  amount: 25.1,
+                  customer: {
+                    name: 'Cao Yu'
+                  },
+                  createdAt: 1555016400000,
+                  status: 'delivered'
+                }]}
+                sx={{ height: '100%' }}
+                />
             </Grid>
           </Grid>
         </Container>
@@ -56,6 +63,6 @@ const Page = () => {
   );
 };
 
-// Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default Page;

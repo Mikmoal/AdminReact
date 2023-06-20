@@ -18,11 +18,15 @@ import { Scrollbar } from "src/components/scrollbar";
 import { items } from "./config";
 import { juntas } from "./config-juntas";
 import { SideNavItem } from "./side-nav-item";
+// import { useSession } from "next-auth/react";
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+
+  // const session = useSession();
+  // console.log(session)
 
   const content = (
     <Scrollbar
@@ -74,6 +78,9 @@ export const SideNav = (props) => {
               <Typography color="neutral.400" variant="body2">
                 Gestión de minutas
               </Typography>
+              {/* <Typography color="neutral.400" variant="body2"> */}
+                {/* {session.data.user.email} */}
+              {/* </Typography> */}
             </div>
           </Box>
         </Box>

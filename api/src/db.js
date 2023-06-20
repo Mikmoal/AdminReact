@@ -5,7 +5,7 @@ const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
 const sequelize = new Sequelize(
-  `mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/bdjuntas`,
+  `mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/rc_juntas_directivos`,
 );
 const basename = path.basename(__filename);
 
@@ -33,10 +33,18 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-// const { Videogame, Genre } = sequelize.models;
+const { Encargado, Grabacion, Junta, Tarea } = sequelize.models;
 
 // Aca vendrian las relaciones
-// Videogame.belongsToMany(Genre, { through: "Videogame_Genre" });
+//Videogame.belongsToMany(Genre, { through: "Videogame_Genre" });
+Junta.belongsToMany(Grabacion, { through: "Junta_Grabacion" });
+Grabacion.hasOne(Junta, {through: "Junta_Grabacion"});
+
+Junta.belongsToMany(Tarea, { through: "Junta_Tarea" });
+Tarea.hasOne(Junta, {through: "Junta_Tarea"});
+
+Tarea.hasOne(Encargado, { through: "Tarea_Encargado" });
+Encargado.hasOne(Tarea, {through: "Tarea_Encargado"});
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

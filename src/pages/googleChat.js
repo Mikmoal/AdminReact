@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 const Page = () => {
   return (
     <>
-      <iframe src="https://mail.google.com/chat/u/0/#onboarding"></iframe>
+      <iframe src="https://mail.google.com/chat/u/0/#onboarding?igu=1"></iframe>
     </>
   );
 };

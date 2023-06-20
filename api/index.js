@@ -1,41 +1,47 @@
-//                       _oo0oo_
-//                      o8888888o
-//                      88" . "88
-//                      (| -_- |)
-//                      0\  =  /0
-//                    ___/`---'\___
-//                  .' \\|     |// '.
-//                 / \\|||  :  |||// \
-//                / _||||| -:- |||||- \
-//               |   | \\\  -  /// |   |
-//               | \_|  ''\---/''  |_/ |
-//               \  .-\__  '-'  ___/-. /
-//             ___'. .'  /--.--\  `. .'___
-//          ."" '<  `.___\_<|>_/___.' >' "".
-//         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-//         \  \ `_.   \_ __\ /__ _/   .-` /  /
-//     =====`-.____`.___ \_____/___.-`___.-'=====
-//                       `=---='
+//                     ____
+//                  _.' :  `._
+//              .-.'`.  ;   .'`.-.
+//     __      / : ___\ ;  /___ ; \      __
+//   ,'_ ""--.:__;".-.";: :".-.":__;.--"" _`,
+//   :' `.t""--.. '<@.`;_  ',@>` ..--""j.' `;
+//        `:-.._J '-.-'L__ `-- ' L_..-;'
+//          "-.__ ;  .-"  "-.  : __.-"
+//              L ' /.------.\ ' J
+//               "-.   "--"   .-"
+//              __.l"-:_JL_;-";.__
+//           .-j/'.;  ;""""  / .'\"-.
+//         .' /:`. "-.:     .-" .';  `.
+//      .-"  / ;  "-. "-..-" .-"  :    "-.
+//   .+"-.  : :      "-.__.-"      ;-._   \
+//   ; \  `.; ;                    : : "+. ;
+//   :  ;   ; ;                    : ;  : \:
+//  : `."-; ;  ;                  :  ;   ,/;
+//   ;    -: ;  :                ;  : .-"'  :
+//   :\     \  : ;             : \.-"      :
+//    ;`.    \  ; :            ;.'_..--  / ;
+//    :  "-.  "-:  ;          :/."      .'  :
+//      \       .-`.\        /t-""  ":-+.   :
+//       `.  .-"    `l    __/ /`. :  ; ; \  ;
+//         \   .-" .-"-.-"  .' .'j \  /   ;/
+//          \ / .-"   /.     .'.' ;_:'    ;
+//           :-""-.`./-.'     /    `.___.'
+//                 \ `t  ._  /  
+//                  "-.t-._:' yoda
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//index.js code for integrating Google Calendar
+
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
-const https = require('https');
-const fs = require('fs');
-
-const options = {
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.crt')
-};
+const cors = require('cors');
+// const { google } = require("googleapis");
+// const url = require("url");
+// const opn = require("open");
+// const fs = require("fs");
+// const path = require("path");
 
 // Syncing all the models at once.
-conn
-  .sync({ alter: true })
-  // .then(() => {
-  //   getGenresController();
-  // })
-  .then(() => {
-    https.createServer(options, server).listen(3001, () => {
-      console.log("%s listening at 3001"); // eslint-disable-line no-console
-    });
+server.use(cors());
+conn.sync({ alter: true }).then(() => {
+  server.listen(3001, () => {
+    console.log("server listening at 3001"); // eslint-disable-line no-console
   });
+});

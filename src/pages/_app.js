@@ -11,16 +11,17 @@ import { createEmotionCache } from "src/utils/create-emotion-cache";
 import "simplebar-react/dist/simplebar.min.css";
 import { Provider } from "react-redux";
 import store from "../redux/store";
-import { SessionProvider } from "next-auth/react";
+// import { SessionProvider } from "next-auth/react";
 import { useEffect } from "react";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import Script from "next/script";
+// import { getGoogleSession } from "../redux/actions";
 
 const clientSideEmotionCache = createEmotionCache();
 
 const SplashScreen = () => null;
 
-const App = (props) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+const App = ({ Component, emotionCache, pageProps: { session, ...pageProps } }) => {
+  emotionCache = clientSideEmotionCache;
 
   useNProgress();
 
@@ -28,57 +29,45 @@ const App = (props) => {
 
   const theme = createTheme();
 
-  // function handleCallbackResponse(response) {
-  //   console.log("Encoded JWT ID token: " + response.credential);
-  // }
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
 
-  // useEffect(() => {
-  //   /* global google */
-  //   google.accounts.id.initialize({
-  //     client_id: "363684052179-ddqp5vv08v9rnfp3hq3f88qn8go4pote.apps.googleusercontent.com",
-  //     callback: handleCallbackResponse
-  //   })
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
-  //   google.accounts.id.renderButton(
-  //     document.getElementById("signInDiv"),
-  //     { theme:"outline", size: "large" }
-  //   )
-  // }, [])
+
 
   return (
-    <GoogleOAuthProvider clientId="363684052179-ddqp5vv08v9rnfp3hq3f88qn8go4pote.apps.googleusercontent.com">
-      <Provider store={store}>
-        <CacheProvider value={emotionCache}>
-          <Head>
-            <title>Racing</title>
-            <meta name="viewport" content="initial-scale=1, width=device-width" />
-          </Head>
+    // <SessionProvider session={session}>
+    <Provider store={store}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>Racing</title>
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
+          {/* <Script src="https://accounts.google.com/gsi/client" async defer></Script> */}
+        </Head>
 
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <AuthProvider>
-              <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <AuthConsumer>
-                  {(auth) =>
-                    auth.isLoading ? <SplashScreen /> : getLayout(<Component {...pageProps} />)
-                  }
-                </AuthConsumer>
-              </ThemeProvider>
-            </AuthProvider>
-
-            {/* <AuthProvider>
-            
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <AuthProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
               <AuthConsumer>
                 {(auth) =>
-                  auth.isLoading ? <SplashScreen /> : 
+                  auth.isLoading ? <SplashScreen /> : getLayout(<Component {...pageProps} />)
                 }
-              </AuthConsumer> */}
-
-            {/* </AuthProvider> */}
-          </LocalizationProvider>
-        </CacheProvider>
-      </Provider>
-    </GoogleOAuthProvider>
+              </AuthConsumer>
+            </ThemeProvider>
+          </AuthProvider>
+        </LocalizationProvider>
+      </CacheProvider>
+    </Provider>
+    // </SessionProvider>
   );
 };
 
