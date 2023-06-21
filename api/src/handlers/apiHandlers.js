@@ -2,13 +2,9 @@ const {
   google,
 } = require("c:/Users/migue/OneDrive/Documents/Miguel Angel Morales/RC/AdminReact/api/node_modules/googleapis/build/src/index");
 require("dotenv").config();
-const fs = require("fs");
-const path = require("path");
 // const http = require("http");
 const https = require("https");
 const url = require("url");
-const people = google.people("v1");
-
 
 ///////////// AUTENTICACIÓN
 /**
@@ -54,9 +50,6 @@ const authorizationUrl = oauth2Client.generateAuthUrl({
  */
 let userCredential = null;
 
-
-
-
 const redirectToGoogleAuthServer = (req, res) => {
   // Example on redirecting user to Google's OAuth 2.0 server.
   // opn(authorizeUrl, { wait: false }).then((cp) => cp.unref());
@@ -70,22 +63,30 @@ const handleOAuthCallback = async (req, res) => {
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
-    // // Aquí puedes acceder a los tokens de acceso y de actualización
+    // Aquí puedes acceder a los tokens de acceso y de actualización
     const accessToken = tokens.access_token;
     const refreshToken = tokens.refresh_token;
 
-    // // Puedes usar los tokens para hacer solicitudes a la API de Google, por ejemplo:
-    // const drive = google.drive({ version: "v3", auth: oauth2Client });
-    // const response = await drive.files.list({
-    //   pageSize: 10,
-    //   fields: "nextPageToken, files(id, name)",
-    // });
-    // const files = response.data.files;
-    // console.log("Archivos:", files);
+    res.redirect("http://localhost:3000/gestion");
+  } catch (error) {
+    console.error("Error en la autorización:", error);
+    res.status(500).send("Error en la autorización");
+  }
+};
 
-    // // Envía una respuesta al cliente
-    // res.send("Autorización exitosa");
+async function getEventsLittle(calendar, id) {
+  const res = await calendar.events.list({
+    calendarId: id,
+    timeMin: new Date().toISOString(),
+    maxResults: 20,
+    singleEvents: true,
+    orderBy: "startTime",
+  });
+  return res.data;
+}
 
+const getEvents = async (req, res) => {
+  try {
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
     const response = await calendar.calendarList.list({});
     const listaDeCalendarios = response.data.items;
@@ -93,58 +94,24 @@ const handleOAuthCallback = async (req, res) => {
       console.log("No calendars found.");
       return;
     }
-    console.log("List of calendars: ");
-    listaDeCalendarios.map((cal, i) => {
-      console.log(`${i}: ${cal.summary}`);
-    });
+    // console.log("List of calendars: ");
+    // listaDeCalendarios.map((cal, i) => {
+    //   console.log(`${i}: ${cal.summary}`);
+    // });
 
-    // listaDeCalendarios;
-    // res.send("Autorización exitosa");
-    res.redirect('http://localhost:3000/gestion');
+    const arrayConEventos = [];
+
+    for (let index = 0; index < listaDeCalendarios.length; index++) {
+      const res = await getEventsLittle(calendar, listaDeCalendarios[index].id);
+      arrayConEventos.push(res);
+    }
+
+    res.status(200).json(arrayConEventos);
   } catch (error) {
-    console.error("Error en la autorización:", error);
-    res.status(500).send("Error en la autorización");
+    console.error("Error:", error);
+    res.status(500).send("Error");
   }
 };
-
-// server.get('/oauth2callback', async (req, res) => {
-//   // Handle the OAuth 2.0 server response
-//   let q = url.parse(req.url, true).query;
-
-//   if (q.error) {
-//     // An error response e.g. error=access_denied
-//     console.log('Error: ' + q.error);
-//   } else {
-//     // Get access and refresh tokens (if access_type is offline)
-//     let { tokens } = await oauth2Client.getToken(q.code);
-//     oauth2Client.setCredentials(tokens);
-
-//     /** Save credential to the global variable in case the access token was refreshed.
-//      * ACTION ITEM: In a production server, you likely want to save the refresh token
-//      * in a secure persistent database instead. */
-//     userCredential = tokens;
-
-//     // Example of using Google Drive API to list filenames in user's Drive.
-//     const drive = google.drive('v3');
-//     drive.files.list({
-//       auth: oauth2Client,
-//       pageSize: 10,
-//       fields: 'nextPageToken, files(id, name)',
-//     }, (err1, res1) => {
-//       if (err1) return console.log('The API returned an error: ' + err1);
-//       const files = res1.data.files;
-//       if (files.length) {
-//         console.log('Files:');
-//         files.map((file) => {
-//           console.log(`${file.name} (${file.id})`);
-//         });
-//       } else {
-//         console.log('No files found.');
-//       }
-//     });
-//   }
-//   res.end();
-// });
 
 const revokeToken = (req, res) => {
   // Build the string for the POST request
@@ -181,54 +148,9 @@ const revokeToken = (req, res) => {
   res.end();
 };
 
-////////////// FUNCIONES
-async function listEvents(auth) {
-  const calendar = google.calendar({ version: "v3", auth });
-  const res = await calendar.calendarList.list({});
-  const listaDeCalendarios = res.data.items;
-  if (!listaDeCalendarios || listaDeCalendarios.length === 0) {
-    console.log("No calendars found.");
-    return;
-  }
-  console.log("List of calendars: ");
-  listaDeCalendarios.map((cal, i) => {
-    console.log(`${i}: ${cal.summary}`);
-  });
-
-  return listaDeCalendarios;
-}
-async function getEventsLittle(calendar, id) {
-  const res = await calendar.events.list({
-    calendarId: id,
-    timeMin: new Date().toISOString(),
-    maxResults: 20,
-    singleEvents: true,
-    orderBy: "startTime",
-  });
-  return res.data;
-}
-async function getEvents(auth, arrCalendars) {
-  const calendar = google.calendar({ version: "v3", auth });
-  const arrayConEventos = [];
-
-  for (let index = 0; index < arrCalendars.length; index++) {
-    const res = await getEventsLittle(calendar, arrCalendars[index].id);
-    arrayConEventos.push(res);
-  }
-
-  return arrayConEventos;
-}
-async function runSample() {
-  // retrieve user profile
-  const res = await people.people.get({
-    resourceName: "people/me",
-    personFields: "emailAddresses",
-  });
-  console.log(res.data);
-}
-
 module.exports = {
   redirectToGoogleAuthServer,
   handleOAuthCallback,
   revokeToken,
+  getEvents,
 };

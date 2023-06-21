@@ -1,8 +1,6 @@
-import process from "process";
 import React, { useEffect } from "react";
-import GoogleLoginButton from "../components/login-btn";
 import Script from "next/script";
-import { Typography } from "@mui/material";
+import { Box, Container, Typography, Stack, Unstable_Grid2 as Grid } from "@mui/material";
 
 const login = () => {
   const boton = (
@@ -17,7 +15,7 @@ const login = () => {
         data-itp_support="true"
       ></div>
       <div
-        class="g_id_signin"
+        className="g_id_signin"
         data-type="standard"
         data-shape="pill"
         data-theme="outline"
@@ -29,11 +27,22 @@ const login = () => {
   );
 
   return (
-    <div>
-      {/* <GoogleLoginButton /> */}
-      <Typography>Racing Cargo Gestión de Minutas</Typography>
-      {boton}
-    </div>
+    <>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <Stack spacing={2}>
+          <Item>
+            <Typography>Racing Cargo</Typography>
+          </Item>
+          <Item>{boton}</Item>
+        </Stack>
+      </Box>
+    </>
   );
 };
 
