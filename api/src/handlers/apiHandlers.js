@@ -1,6 +1,4 @@
-const {
-  google,
-} = require("c:/Users/migue/OneDrive/Documents/Miguel Angel Morales/RC/AdminReact/api/node_modules/googleapis/build/src/index");
+const { google } = require("googleapis");
 require("dotenv").config();
 // const http = require("http");
 const https = require("https");
