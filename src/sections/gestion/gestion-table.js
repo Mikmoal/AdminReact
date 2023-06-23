@@ -66,7 +66,8 @@ export const JuntasTable = (props) => {
             <TableBody>
               {items.map((item) => {
                 const isSelected = selected.includes(item.id);
-                const createdAt = format(item.createdAt, 'dd/MM/yyyy');
+                let date = new Date( Date.parse(item.createdAt) );
+                const createdAt = format(date, 'dd/MM/yyyy');
 
                 return (
                   <TableRow
@@ -93,10 +94,10 @@ export const JuntasTable = (props) => {
                         spacing={2}
                       >
                         <Avatar src={item.avatar}>
-                          {getInitials(item.name)}
+                          {getInitials(item.nombre)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {item.name}
+                          {item.nombre}
                         </Typography>
                       </Stack>
                     </TableCell>

@@ -2,6 +2,7 @@ import axios from "axios";
 export const GET_OTHER_CALENDARS = "GET_OTHER_CALENDARS";
 export const SET_CALENDAR_EVENTS = "SET_CALENDAR_EVENTS";
 export const REMOVE_CALENDAR_EVENTS = "REMOVE_CALENDAR_EVENTS";
+export const GET_JUNTAS = "GET_JUNTAS";
 
 
 export const getGoogleSession = async () => {
@@ -23,6 +24,17 @@ export const getOtherCalendars = () => async (dispatch) => {
       return error;
     });
 };
+export const getJuntasFromBack = () => async (dispatch) => {
+  await axios.get("http://localhost:3001/api/juntas").then((response) => {
+    dispatch({
+      type: GET_JUNTAS,
+      payload: response.data,
+    })
+  })
+  .catch((error) => {
+    return error;
+  })
+}
 
 export const seleccionarCalendarios = (calendarios) => ({
   type: SET_CALENDAR_EVENTS,

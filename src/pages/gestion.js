@@ -1,17 +1,16 @@
-import { useCallback, useMemo, useState } from "react";
+import React, { useEffect, useCallback, useMemo, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Script from "next/script";
 import { subDays, subHours } from "date-fns";
-import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
-import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, SvgIcon, Typography, Modal } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-//import { CustomersSearch } from 'src/sections/customer/customers-search';
 import { applyPagination } from "src/utils/apply-pagination";
 import { JuntasTable } from "../sections/gestion/gestion-table";
+import { getJuntasFromBack } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const now = new Date();
 
@@ -88,6 +87,13 @@ const Page = () => {
   const customers = useCustomers(page, rowsPerPage);
   const customersIds = useCustomerIds(customers);
   const customersSelection = useSelection(customersIds);
+  let dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getJuntasFromBack());
+  }, [dispatch]);
+
+  const juntas = useSelector((state) => state.juntas);
 
   //Estado para el modal
   const [open, setOpen] = useState(false);
@@ -275,8 +281,8 @@ const Page = () => {
             </Stack>
             {/* <CustomersSearch /> */}
             <JuntasTable
-              count={data.length}
-              items={customers}
+              count={juntas.length}
+              items={juntas}
               onDeselectAll={customersSelection.handleDeselectAll}
               onDeselectOne={customersSelection.handleDeselectOne}
               onPageChange={handlePageChange}

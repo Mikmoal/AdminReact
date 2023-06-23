@@ -83,7 +83,9 @@ async function getEventsLittle(calendar, id) {
   return res.data;
 }
 
+let indiceCalendarJuntas;
 const getEvents = async (req, res) => {
+
   try {
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
     const response = await calendar.calendarList.list({});
@@ -93,9 +95,11 @@ const getEvents = async (req, res) => {
       return;
     }
     // console.log("List of calendars: ");
-    // listaDeCalendarios.map((cal, i) => {
-    //   console.log(`${i}: ${cal.summary}`);
-    // });
+    listaDeCalendarios.map((cal, i) => {
+      if (cal.summary === "Juntas de prueba") {
+        indiceCalendarJuntas = i;
+      }
+    });
 
     const arrayConEventos = [];
 
@@ -108,6 +112,38 @@ const getEvents = async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send("Error");
+  }
+};
+
+const getJuntas = async (req, res) => {
+  try {
+    const calendar = google.calendar({ version: "v3", auth: oauth2Client });
+
+    const juntas = await getEventsLittle(calendar, "c_bbedaaf3f5880cd562f81a8f6585e5768d6b8e478ee5c130c149b107bc801372@group.calendar.google.com");
+    
+    const eventosClean = [];
+    
+    if (!juntas || juntas.length === 0) {
+      console.log("No juntas found.");
+      return;
+    }
+
+    juntas.items.forEach((element) => {
+      if (!eventosClean.find((junta) => junta.nombre === element.summary)) {
+        eventosClean.push({
+          id: element.id,
+          nombre: element.summary,
+          createdAt: element.created,
+        });
+      }
+    });
+
+    console.log(eventosClean);
+    res.status(200).json(eventosClean);
+    
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(400).send("Error");
   }
 };
 
@@ -151,4 +187,5 @@ module.exports = {
   handleOAuthCallback,
   revokeToken,
   getEvents,
+  getJuntas,
 };
