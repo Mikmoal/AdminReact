@@ -32,15 +32,11 @@
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 const cors = require('cors');
-// const { google } = require("googleapis");
-// const url = require("url");
-// const opn = require("open");
-// const fs = require("fs");
-// const path = require("path");
+
 
 // Syncing all the models at once.
 server.use(cors());
-conn.sync({ alter: true }).then(() => {
+conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
     console.log("server listening at 3001"); // eslint-disable-line no-console
   });

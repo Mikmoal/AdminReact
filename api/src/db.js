@@ -5,7 +5,7 @@ const path = require("path");
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
 
 const sequelize = new Sequelize(
-  `mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/rc_juntas_directivos`,
+  `mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/rc_juntas_directivos`
 );
 const basename = path.basename(__filename);
 
@@ -13,10 +13,7 @@ const modelDefiners = [];
 
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
 fs.readdirSync(path.join(__dirname, "/models"))
-  .filter(
-    (file) =>
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-  )
+  .filter((file) => file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js")
   .forEach((file) => {
     modelDefiners.push(require(path.join(__dirname, "/models", file)));
   });
@@ -25,26 +22,25 @@ fs.readdirSync(path.join(__dirname, "/models"))
 modelDefiners.forEach((model) => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
-let capsEntries = entries.map((entry) => [
-  entry[0][0].toUpperCase() + entry[0].slice(1),
-  entry[1],
-]);
+let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Encargado, Grabacion, Junta, Tarea } = sequelize.models;
+const { Participante, Grabacion, Junta, Tarea, Evidencia } = sequelize.models;
 
 // Aca vendrian las relaciones
-//Videogame.belongsToMany(Genre, { through: "Videogame_Genre" });
-Junta.belongsToMany(Grabacion, { through: "Junta_Grabacion" });
-Grabacion.hasOne(Junta, {through: "Junta_Grabacion"});
+Junta.hasMany(Grabacion, { foreignKey: 'id_junta' });
+Grabacion.belongsTo(Junta);
 
-Junta.belongsToMany(Tarea, { through: "Junta_Tarea" });
-Tarea.hasOne(Junta, {through: "Junta_Tarea"});
+Junta.hasMany(Tarea, { foreignKey: 'id_junta' });
+Tarea.belongsTo(Junta);
 
-Tarea.hasOne(Encargado, { through: "Tarea_Encargado" });
-Encargado.hasOne(Tarea, {through: "Tarea_Encargado"});
+Junta.belongsToMany(Participante, { through: "Participante_Junta" });
+Participante.belongsToMany(Junta, { through: "Participante_Junta" });
+
+Tarea.hasMany(Evidencia, { foreignKey: 'id_tarea' });
+Evidencia.belongsTo(Tarea);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

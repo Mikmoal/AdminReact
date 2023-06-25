@@ -1,10 +1,17 @@
-import { GET_OTHER_CALENDARS, SET_CALENDAR_EVENTS, REMOVE_CALENDAR_EVENTS, GET_JUNTAS } from "./actions";
+import {
+  GET_OTHER_CALENDARS,
+  SET_CALENDAR_EVENTS,
+  REMOVE_CALENDAR_EVENTS,
+  GET_JUNTAS,
+  DETAIL,
+} from "./actions";
 
 const initialState = {
   calendarsRaw: [],
   calendarsFixed: [],
   calendariosSeleccionados: [],
   juntas: [],
+  detail: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -79,6 +86,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         juntas: action.payload,
+      };
+
+    case DETAIL:
+      return {
+        ...state,
+        detail: action.payload,
       };
 
     default:

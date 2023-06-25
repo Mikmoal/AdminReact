@@ -85,7 +85,6 @@ async function getEventsLittle(calendar, id) {
 
 let indiceCalendarJuntas;
 const getEvents = async (req, res) => {
-
   try {
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
     const response = await calendar.calendarList.list({});
@@ -119,10 +118,13 @@ const getJuntas = async (req, res) => {
   try {
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
-    const juntas = await getEventsLittle(calendar, "c_bbedaaf3f5880cd562f81a8f6585e5768d6b8e478ee5c130c149b107bc801372@group.calendar.google.com");
-    
+    const juntas = await getEventsLittle(
+      calendar,
+      "c_bbedaaf3f5880cd562f81a8f6585e5768d6b8e478ee5c130c149b107bc801372@group.calendar.google.com"
+    );
+
     const eventosClean = [];
-    
+
     if (!juntas || juntas.length === 0) {
       console.log("No juntas found.");
       return;
@@ -138,9 +140,33 @@ const getJuntas = async (req, res) => {
       }
     });
 
-    console.log(eventosClean);
     res.status(200).json(eventosClean);
-    
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(400).send("Error");
+  }
+};
+
+const getJuntasBD = async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (id) {
+      await Junta.findByPk(id, {
+        include: [
+          {
+            model: Tarea,
+            attributes: ["name"],
+            through: {
+              attributes: [],
+            },
+          },
+          {model: Tarea},
+          {model: Grabacion},
+          {model: Evidencia},
+          {model: Participante}
+        ],
+      });
+    }
   } catch (error) {
     console.error("Error:", error);
     res.status(400).send("Error");

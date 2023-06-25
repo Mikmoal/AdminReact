@@ -4,11 +4,11 @@ const { DataTypes } = require("sequelize");
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define(
-    "tarea",
+    "participante",
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         allowNull: false,
         primaryKey: true,
       },
@@ -16,28 +16,14 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      descripcion: {
+      email: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      fecha_creacion: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      fecha_entrega: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      status: {
+      rol: {
+        /** Puede ser participante o encargado */
         type: DataTypes.STRING,
-        allowNull: false,
-      },
-      id_junta: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Junta',
-          key: 'id'
-        }
+        allowNull:false
       }
     },
     {

@@ -1,8 +1,6 @@
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import PropTypes from "prop-types";
-// import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
-import ChevronUpDownIcon from "@heroicons/react/24/solid/ChevronUpDownIcon";
 import {
   Box,
   Button,
@@ -18,15 +16,22 @@ import { Scrollbar } from "src/components/scrollbar";
 import { items } from "./config";
 import { juntas } from "./config-juntas";
 import { SideNavItem } from "./side-nav-item";
-// import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
+  let dispatch = useDispatch();
 
-  // const session = useSession();
-  // console.log(session)
+  // useEffect(() => {
+  //   dispatch(getJuntasFromBack());
+  // }, [dispatch]);
+
+  // const juntas = useSelector((state) => state.juntas);
+
 
   const content = (
     <Scrollbar

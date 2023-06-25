@@ -3,6 +3,7 @@ export const GET_OTHER_CALENDARS = "GET_OTHER_CALENDARS";
 export const SET_CALENDAR_EVENTS = "SET_CALENDAR_EVENTS";
 export const REMOVE_CALENDAR_EVENTS = "REMOVE_CALENDAR_EVENTS";
 export const GET_JUNTAS = "GET_JUNTAS";
+export const DETAIL = "DETAIL";
 
 
 export const getGoogleSession = async () => {
@@ -24,6 +25,7 @@ export const getOtherCalendars = () => async (dispatch) => {
       return error;
     });
 };
+
 export const getJuntasFromBack = () => async (dispatch) => {
   await axios.get("http://localhost:3001/api/juntas").then((response) => {
     dispatch({
@@ -40,7 +42,21 @@ export const seleccionarCalendarios = (calendarios) => ({
   type: SET_CALENDAR_EVENTS,
   payload: calendarios,
 });
+
 export const quitarCalendarios = (calendarios) => ({
   type: REMOVE_CALENDAR_EVENTS,
   payload: calendarios
 })
+
+export const getById = (id) => async (dispatch) => {
+  try {
+    await axios.get(`http://localhost:3001/api/juntas${id}`).then((response) => {
+      dispatch({
+        type: DETAIL,
+        payload: response.data,
+      });
+    });
+  } catch (error) {
+    return error;
+  }
+};
