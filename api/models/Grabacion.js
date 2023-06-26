@@ -17,12 +17,13 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
   }
-  Junta.init({
+  Grabacion.init({
     link: DataTypes.STRING,
-    id_junta: DataTypes.STRING,
+    id_junta: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Grabacion',
+    freezeTableName: true
   });
   return Grabacion;
 };

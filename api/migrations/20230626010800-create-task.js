@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Junta', {
+    await queryInterface.createTable('Task', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,23 +12,23 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
-      integrantes: {
+      descripcion: {
         type: Sequelize.STRING
       },
-      fecha_ejecucion: {
+      fecha_entrega: {
         type: Sequelize.DATE
       },
-      hora_inicio: {
-        type: Sequelize.TIME
-      },
-      hora_fin: {
-        type: Sequelize.TIME
-      },
-      periodicidad: {
+      status: {
         type: Sequelize.STRING
       },
-      sala_juntas: {
-        type: Sequelize.STRING
+      id_junta: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Junta',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -38,9 +38,12 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    },
+    {
+      freezeTableName: true
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Junta');
+    await queryInterface.dropTable('Task');
   }
 };

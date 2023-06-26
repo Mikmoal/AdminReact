@@ -13,11 +13,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       id_junta: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: {
           model: 'Junta',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -27,6 +29,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    },
+    {
+      freezeTableName: true
     });
   },
   async down(queryInterface, Sequelize) {
