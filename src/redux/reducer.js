@@ -4,6 +4,7 @@ import {
   REMOVE_CALENDAR_EVENTS,
   GET_JUNTAS,
   DETAIL,
+  ADD_JUNTA
 } from "./actions";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   calendariosSeleccionados: [],
   juntas: [],
   detail: {},
+  newJunta: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -93,6 +95,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         detail: action.payload,
       };
+
+    case ADD_JUNTA:
+      return {
+        ...state,
+        newJunta: action.payload 
+      }
 
     default:
       return { ...state };

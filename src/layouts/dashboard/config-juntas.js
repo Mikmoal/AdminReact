@@ -3,7 +3,7 @@ import { SvgIcon } from '@mui/material';
 
 export const juntas = [
   {
-    title: 'Una junta',
+    title: 'Resumen',
     path: '/resumen',
     icon: (
       <SvgIcon fontSize="small">
@@ -11,31 +11,4 @@ export const juntas = [
       </SvgIcon>
     )
   },
-  {
-    title: 'Una junta',
-    path: '/resumen',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserGroupIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Una junta',
-    path: '/resumen',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserGroupIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Una junta',
-    path: '/resumen',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserGroupIcon />
-      </SvgIcon>
-    )
-  }
 ];

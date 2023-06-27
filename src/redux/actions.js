@@ -4,7 +4,8 @@ export const SET_CALENDAR_EVENTS = "SET_CALENDAR_EVENTS";
 export const REMOVE_CALENDAR_EVENTS = "REMOVE_CALENDAR_EVENTS";
 export const GET_JUNTAS = "GET_JUNTAS";
 export const DETAIL = "DETAIL";
-
+export const ADD_JUNTA = "ADD_JUNTA";
+ 
 
 export const getGoogleSession = async () => {
   await axios.get("http://localhost:3001/api").then(response => {
@@ -36,6 +37,8 @@ export const getJuntasFromBack = () => async (dispatch) => {
   .catch((error) => {
     return error;
   })
+
+  // await axios.get("http://localhost:3001/api/getJuntasDB")
 }
 
 export const seleccionarCalendarios = (calendarios) => ({
@@ -46,16 +49,31 @@ export const seleccionarCalendarios = (calendarios) => ({
 export const quitarCalendarios = (calendarios) => ({
   type: REMOVE_CALENDAR_EVENTS,
   payload: calendarios
-})
+});
 
 export const getById = (id) => async (dispatch) => {
   try {
-    await axios.get(`http://localhost:3001/api/juntas${id}`).then((response) => {
+    await axios.get(`http://localhost:3001/api/juntas/${id}`).then((response) => {
       dispatch({
         type: DETAIL,
         payload: response.data,
       });
     });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createJunta = (payload) => async (dispatch) => {
+  try {
+    await axios
+      .post("http://localhost:3001/api/createJunta", payload)
+      .then((response) => {
+        dispatch({
+          type: ADD_JUNTA,
+          payload: response.data,
+        });
+      });
   } catch (error) {
     return error;
   }

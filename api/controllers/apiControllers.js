@@ -114,12 +114,39 @@ const getJuntasDB = (req, res) => {
   modeloJunta
     .findAll({
       include: [
-        { model: modeloGrabacion }, 
-        { model: modeloTask, 
-          include: [{
-            model: modeloEvidence
-          }] 
-        }
+        { model: modeloGrabacion },
+        {
+          model: modeloTask,
+          include: [
+            {
+              model: modeloEvidence,
+            },
+          ],
+        },
+      ],
+    })
+    .then((data) => {
+      res.json({ datos: data });
+    })
+    .catch((error) => {
+      res.json({ error: error });
+    });
+};
+const getJuntaDBById = (req, res) => {
+  const { id } = req.params;
+  modeloJunta
+    .findByPk(id, {
+      include: [
+        { model: modeloParticipant },
+        { model: modeloGrabacion },
+        {
+          model: modeloTask,
+          include: [
+            {
+              model: modeloEvidence,
+            },
+          ],
+        },
       ],
     })
     .then((data) => {
@@ -225,4 +252,5 @@ module.exports = {
   getEvidences,
   updateEvidence,
   deleteEvidence,
+  getJuntaDBById,
 };

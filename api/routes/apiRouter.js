@@ -22,6 +22,7 @@ const {
   deleteEvidence,
   createJunta,
   getJuntasDB,
+  getJuntaDBById,
   updateJunta,
   deleteJunta
 } = require("../controllers/apiControllers");
@@ -35,6 +36,7 @@ router.get("/juntas", getJuntas);
 // CRUD de Junta
 router.post("/createJunta", createJunta);
 router.get("/getJuntasDB", getJuntasDB);
+router.get("/getJuntasDB/:id", getJuntaDBById);
 router.put("/updateJunta", updateJunta);
 router.delete("/deleteJunta", deleteJunta);
 
