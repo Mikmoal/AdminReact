@@ -51,7 +51,7 @@ export const OverviewTasks = (props) => {
             </TableHead>
             <TableBody>
               {tareas.map((tarea) => {
-                const createdAt = format(tarea.createdAt, 'dd/MM/yyyy');
+                //const createdAt = format(tarea.createdAt, 'dd/MM/yyyy');
 
                 return (
                   <TableRow
@@ -59,13 +59,13 @@ export const OverviewTasks = (props) => {
                     key={tarea.id}
                   >
                     <TableCell>
-                      {tarea.ref}
+                      {tarea.id}
                     </TableCell>
                     <TableCell>
-                      {tarea.customer.name}
+                      encargado pendiente
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      {tarea.createdAt}
                     </TableCell>
                     <TableCell>
                       <SeverityPill color={statusMap[tarea.status]}>

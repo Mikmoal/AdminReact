@@ -1,3 +1,6 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
 import Head from "next/head";
 import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import {
@@ -13,17 +16,18 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { subDays, subHours } from "date-fns";
 import { OverviewTasks } from "src/sections/overview/overview-tasks";
 import { OverviewParticipants } from "src/sections/overview/overview-participantes";
-import { OverviewRecords } from "../sections/overview/overview-grabaciones";
-import { OverviewEvidence } from "../sections/overview/overview-evidencias";
+import { OverviewRecords } from "../../sections/overview/overview-grabaciones";
+import { OverviewEvidence } from "../../sections/overview/overview-evidencias";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { OverviewJuntas } from "../sections/overview/overview-juntas";
-import { getById } from "../redux/actions";
+import { OverviewJuntas } from "../../sections/overview/overview-juntas";
+import { getById } from "../../redux/actions";
+import { useRouter } from "next/router";
 
 const now = new Date();
 
 function renderizarDetail(junta) {
-  return(
+  return (
     <Box
       component="main"
       sx={{
@@ -60,57 +64,57 @@ function renderizarDetail(junta) {
             <OverviewJuntas />
           </Grid>
           <Grid xs={12} md={12} lg={8}>
-            <OverviewTasks
-              tareas={junta.tareas}
-              sx={{ height: "100%" }}
-            />
+            <OverviewTasks tareas={junta.Tasks} sx={{ height: "100%" }} />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
-            <OverviewEvidence
-              evidencias={junta.evidencias}
-              sx={{ height: "100%" }}
-            />
+            <OverviewEvidence evidencias={junta.evidencias} sx={{ height: "100%" }} />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
-            <OverviewParticipants
-              participantes={junta.participantes}
-              sx={{ height: "100%" }}
-            />
+            <OverviewParticipants participantes={junta.participantes} sx={{ height: "100%" }} />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
-            <OverviewRecords
-              grabaciones={junta.grabaciones}
-              sx={{ height: "100%" }}
-            />
+            <OverviewRecords grabaciones={junta.grabaciones} sx={{ height: "100%" }} />
           </Grid>
         </Grid>
       </Container>
     </Box>
-  )
+  );
 }
 
 const Page = (props) => {
+  const router = useRouter();
+
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getById(props.match.params.id))
-  }, [dispatch, props.match.params.id])
-  const junta = useSelector((state) => state.detail)
-   console.log(Array.isArray(junta))
-   console.log(junta)
+    if (router.isReady) {
+      const {id} = router.query;
+
+      console.log("This is de id: " + id);
+      console.log(router.query);
+      dispatch(getById(id));
+    }
+    
+  }, [router.isReady, dispatch]);
+
+  const junta = useSelector((state) => state.detail);
+  console.log(Array.isArray(junta.datos));
+  console.log(junta.datos);
+
   return (
     <>
       <Head>
         <title>Resumen de junta</title>
       </Head>
-      {!junta.id ? (
+      {!router.isReady||!junta.datos ? (
         <div>
-          <img src={loading} width="120px" alt="loading" />{" "}
+          <p>Loading</p>
         </div>
       ) : (
-        renderizarDetail(junta)
+        renderizarDetail(junta.datos)
       )}
     </>
   );
-}
+};
 Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 export default Page;

@@ -53,7 +53,7 @@ export const quitarCalendarios = (calendarios) => ({
 
 export const getById = (id) => async (dispatch) => {
   try {
-    await axios.get(`http://localhost:3001/api/juntas/${id}`).then((response) => {
+    await axios.get(`http://localhost:3001/api/getJuntasDB/${id}`).then((response) => {
       dispatch({
         type: DETAIL,
         payload: response.data,

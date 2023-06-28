@@ -137,7 +137,7 @@ const getJuntaDBById = (req, res) => {
   modeloJunta
     .findByPk(id, {
       include: [
-        { model: modeloParticipant },
+        
         { model: modeloGrabacion },
         {
           model: modeloTask,
