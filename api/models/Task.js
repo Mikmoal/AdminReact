@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     fecha_entrega: DataTypes.DATE,
     status: DataTypes.STRING,
     id_junta: DataTypes.INTEGER,
+    encargado: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Task',

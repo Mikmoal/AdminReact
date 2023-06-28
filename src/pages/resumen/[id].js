@@ -27,6 +27,38 @@ import { useRouter } from "next/router";
 const now = new Date();
 
 function renderizarDetail(junta) {
+  const evidences = []
+  junta.Tasks.forEach(el => {
+
+    el.Evidence.forEach(el => {
+      
+      evidences.push({
+        id: el.id,
+        name: el.link,
+        updatedAt: el.updatedAt
+      })
+
+    })
+
+  })
+
+  // const grabacions = []
+  // junta.Grabacions.forEach(el => {
+  //   grabacions.push({
+  //     id: el.id,
+  //     name: el.link,
+  //     updatedAt: el.updatedAt
+  //   })
+  // })
+
+  const grabacions = junta.Grabacions.map(el => {
+    return {
+      id: el.id,
+      name: el.link,
+      updatedAt: el.updatedAt
+    }
+  })
+
   return (
     <Box
       component="main"
@@ -67,7 +99,7 @@ function renderizarDetail(junta) {
             <OverviewTasks tareas={junta.Tasks} sx={{ height: "100%" }} />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
-            <OverviewEvidence evidencias={junta.evidencias} sx={{ height: "100%" }} />
+            <OverviewEvidence evidencias={evidences} sx={{ height: "100%" }} />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
             <OverviewParticipants participantes={junta.participantes} sx={{ height: "100%" }} />

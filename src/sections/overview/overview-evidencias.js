@@ -26,7 +26,7 @@ export const OverviewEvidence = (props) => {
       <List>
         {evidencias.map((evidencia, index) => {
           const hasDivider = index < evidencias.length - 1;
-          const ago = formatDistanceToNow(evidencia.updatedAt);
+          const ago = formatDistanceToNow(Date.parse(evidencia.updatedAt));
 
           return (
             <ListItem
