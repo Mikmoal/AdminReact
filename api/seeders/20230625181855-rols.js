@@ -7,17 +7,11 @@ module.exports = {
      * Add seed commands here.
       Example: **/
       
-     await queryInterface.bulkInsert('Junta', [{
-      nombre: 'John',
-      integrantes: 'Doe',
-      fecha_ejecucion: new Date(),
-      hora_inicio: "12:30:59",
-      hora_fin: "12:31:01",
-      periodicidad: "una vez",
-      sala_juntas: "Mace",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }]);
+     await queryInterface.bulkInsert('Rol', [
+      {tipo: 'usuario'},
+      {tipo: 'administrador'},
+      {tipo: 'directivo'}
+    ]);
   
   },
 
@@ -28,5 +22,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('Rol', [
+      {tipo: 'usuario'},
+      {tipo: 'administrador'},
+      {tipo: 'directivo'}
+    ], {});
   }
 };
