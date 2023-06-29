@@ -26,7 +26,7 @@ export const OverviewRecords = (props) => {
       <List>
         {grabaciones.map((grabacion, index) => {
           const hasDivider = index < grabaciones.length - 1;
-          const ago = formatDistanceToNow(grabacion.updatedAt);
+          const ago = formatDistanceToNow(Date.parse(grabacion.updatedAt));
 
           return (
             <ListItem

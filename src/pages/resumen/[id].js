@@ -51,7 +51,7 @@ function renderizarDetail(junta) {
   //   })
   // })
 
-  const grabacions = junta.Grabacions.map(el => {
+  const grabaciones = junta.Grabacions.map(el => {
     return {
       id: el.id,
       name: el.link,
@@ -102,10 +102,10 @@ function renderizarDetail(junta) {
             <OverviewEvidence evidencias={evidences} sx={{ height: "100%" }} />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
-            <OverviewParticipants participantes={junta.participantes} sx={{ height: "100%" }} />
+            <OverviewParticipants participantes={junta.integrantes} sx={{ height: "100%" }} />
           </Grid>
           <Grid xs={12} md={6} lg={4}>
-            <OverviewRecords grabaciones={junta.grabaciones} sx={{ height: "100%" }} />
+            <OverviewRecords grabaciones={grabaciones} sx={{ height: "100%" }} />
           </Grid>
         </Grid>
       </Container>

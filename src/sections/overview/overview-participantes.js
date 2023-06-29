@@ -18,13 +18,13 @@ import {
 } from '@mui/material';
 
 export const OverviewParticipants = (props) => {
-  const { participantes = [], sx } = props;
-
+  const { participantes, sx } = props;
+  const participantesArr = participantes.split(",");
   return (
     <Card sx={sx}>
       <CardHeader title="Participantes" />
       <List>
-        {participantes.map((participante, index) => {
+        {participantesArr.map((participante, index) => {
           const hasDivider = index < participantes.length - 1;
           // const ago = formatDistanceToNow(participante.updatedAt);
 
@@ -60,7 +60,7 @@ export const OverviewParticipants = (props) => {
                 }
               </ListItemAvatar>
               <ListItemText
-                primary={participante.name}
+                primary={participante}
                 primaryTypographyProps={{ variant: 'subtitle1' }}
                 // secondary={`Updated ${ago} ago`}
                 secondaryTypographyProps={{ variant: 'body2' }}
