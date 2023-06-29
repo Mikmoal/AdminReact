@@ -6,35 +6,33 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { createJunta } from "../redux/actions";
+import { createTask } from "../redux/actions";
 
-export default function FormJuta() {
+export default function FormTask() {
   const dispatch = useDispatch();
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
       nombre: "",
-      integrantes: "",
-      fecha_ejecucion: "",
-      hora_inicio: "",
-      hora_fin: "",
-      periodicidad: "",
-      sala_juntas: "",
+      descripcion: "",
+      fecha_entrega: "",
+      status: "",
+      id_junta: "",
+      encargado: "",
       submit: "",
     },
     validationSchema: Yup.object({
       nombre: Yup.string().max(255).required("Nombre es requerido"),
-      integrantes: Yup.string().max(255).required("Integrantes es requerido"),
-      fecha_ejecucion: Yup.date().required("La fecha es requerida"),
-      hora_inicio: Yup.string().max(255).required("La hora de inicio es requerido"),
-      hora_fin: Yup.string().max(255).required("La hora final es requerido"),
-      periodicidad: Yup.string().max(255).required("Periodicidad es requerido"),
-      sala_juntas: Yup.string().max(255).required("Escoger una sala de juntas"),
+      descripcion: Yup.string().max(255).required(" es requerido"),
+      fecha_entrega: Yup.date().required("La fecha es requerida"),
+      status: Yup.string().max(255).required(" es requerido"),
+      id_junta: Yup.string().max(255).required(" es requerido"),
+      encargado: Yup.string().max(255).required(" es requerido")
     }),
     onSubmit: async (values, helpers) => {
       try {
-        dispatch(createJunta(values));
-        alert("Junta created");
+        dispatch(createTask(values));
+        alert("Tarea creada");
         router.push(`/resumen/${values.id_junta}`); /// CERRAR MODAL
       } catch (err) {
         console.log(err);
@@ -59,7 +57,7 @@ export default function FormJuta() {
   return (
     <Box sx={style} noValidate autoComplete="off">
       <Stack spacing={1} sx={{ mb: 3 }}>
-        <Typography variant="h6">Nueva Junta</Typography>
+        <Typography variant="h6">Nueva Tarea</Typography>
       </Stack>
       <form noValidate onSubmit={formik.handleSubmit}>
         <Stack spacing={3}>
@@ -74,64 +72,54 @@ export default function FormJuta() {
             value={formik.values.nombre}
           />
           <TextField
-            error={!!(formik.touched.integrantes && formik.errors.integrantes)}
+            error={!!(formik.touched.descripcion && formik.errors.descripcion)}
             fullWidth
-            helperText={formik.touched.integrantes && formik.errors.integrantes}
-            label="Integrantes"
-            name="integrantes"
+            helperText={formik.touched.descripcion && formik.errors.descripcion}
+            label="Descripcion"
+            name="descripcion"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            value={formik.values.integrantes}
+            value={formik.values.descripcion}
           />
           <TextField
-            error={!!(formik.touched.fecha_ejecucion && formik.errors.fecha_ejecucion)}
+            error={!!(formik.touched.fecha_entrega && formik.errors.fecha_entrega)}
             fullWidth
-            helperText={formik.touched.fecha_ejecucion && formik.errors.fecha_ejecucion}
-            label="Cuando"
-            name="fecha_ejecucion"
+            helperText={formik.touched.fecha_entrega && formik.errors.fecha_entrega}
+            label="Fecha de entrega"
+            name="fecha_entrega"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            value={formik.values.fecha_ejecucion}
+            value={formik.values.fecha_entrega}
           />
           <TextField
-            error={!!(formik.touched.hora_inicio && formik.errors.hora_inicio)}
+            error={!!(formik.touched.status && formik.errors.status)}
             fullWidth
-            helperText={formik.touched.hora_inicio && formik.errors.hora_inicio}
-            label="Hora inicio"
-            name="hora_inicio"
+            helperText={formik.touched.status && formik.errors.status}
+            label="Status"
+            name="status"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            value={formik.values.hora_inicio}
+            value={formik.values.status}
           />
           <TextField
-            error={!!(formik.touched.hora_fin && formik.errors.hora_fin)}
+            error={!!(formik.touched.id_junta && formik.errors.id_junta)}
             fullWidth
-            helperText={formik.touched.hora_fin && formik.errors.hora_fin}
-            label="Hora fin"
-            name="hora_fin"
+            helperText={formik.touched.id_junta && formik.errors.id_junta}
+            label="Id de junta"
+            name="id_junta"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            value={formik.values.hora_fin}
+            value={formik.values.id_junta}
           />
           <TextField
-            error={!!(formik.touched.periodicidad && formik.errors.periodicidad)}
+            error={!!(formik.touched.encargado && formik.errors.encargado)}
             fullWidth
-            helperText={formik.touched.periodicidad && formik.errors.periodicidad}
-            label="Periodicidad"
-            name="periodicidad"
+            helperText={formik.touched.encargado && formik.errors.encargado}
+            label="Encargado"
+            name="encargado"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            value={formik.values.periodicidad}
-          />
-          <TextField
-            error={!!(formik.touched.sala_juntas && formik.errors.sala_juntas)}
-            fullWidth
-            helperText={formik.touched.sala_juntas && formik.errors.sala_juntas}
-            label="Sala de juntas"
-            name="sala_juntas"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            value={formik.values.sala_juntas}
+            value={formik.values.encargado}
           />
         </Stack>
         {formik.errors.submit && (

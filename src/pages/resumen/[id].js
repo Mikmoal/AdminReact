@@ -10,6 +10,7 @@ import {
   Container,
   Stack,
   Typography,
+  Modal,
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
@@ -18,15 +19,22 @@ import { OverviewTasks } from "src/sections/overview/overview-tasks";
 import { OverviewParticipants } from "src/sections/overview/overview-participantes";
 import { OverviewRecords } from "../../sections/overview/overview-grabaciones";
 import { OverviewEvidence } from "../../sections/overview/overview-evidencias";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { OverviewJuntas } from "../../sections/overview/overview-juntas";
 import { getById } from "../../redux/actions";
 import { useRouter } from "next/router";
+import React, { useEffect, useCallback, useMemo, useState } from "react";
+import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import FormTask from "../../components/formTask";
 
 const now = new Date();
 
 function renderizarDetail(junta) {
+  //Estado para el modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const evidences = []
   junta.Tasks.forEach(el => {
 
@@ -91,6 +99,28 @@ function renderizarDetail(junta) {
             >
               Unirse
             </Button>
+            <div>
+                <Button
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <PlusIcon />
+                    </SvgIcon>
+                  }
+                  variant="contained"
+                  onClick={handleOpen}
+                >
+                  Nueva tarea
+                </Button>
+                <Modal
+                  keepMounted
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="keep-mounted-modal-title"
+                  aria-describedby="keep-mounted-modal-description"
+                >
+                  <FormTask/>
+                </Modal>
+              </div>
           </Grid>
           <Grid xs={12} md={12} lg={8}>
             <OverviewJuntas />

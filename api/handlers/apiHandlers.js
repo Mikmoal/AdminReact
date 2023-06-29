@@ -83,7 +83,38 @@ async function getEventsLittle(calendar, id) {
   return res.data;
 }
 
+
+
 let indiceCalendarJuntas;
+
+const getUsersFromGoogleAPI = async (req,res) => {
+  // Crear una instancia de la API de Admin SDK
+  const admin = google.admin({
+    version: 'directory_v1',
+    auth: oauth2Client
+  });
+  
+  // Obtener los usuarios registrados
+  admin.users.list({
+    customer: 'my_customer', // Puedes especificar el identificador de cliente si tienes varios
+    maxResults: 1000 // Especifica el número máximo de usuarios a obtener
+  }, (err, response) => {
+    if (err) {
+      console.error('Error al obtener los usuarios:', err);
+      return;
+    }
+  
+    const users = response.data.users;
+    console.log('Usuarios:', users);
+  
+    // Aquí puedes guardar los usuarios en tu base de datos
+  });
+}
+
+
+
+
+
 const getEvents = async (req, res) => {
   try {
     const calendar = google.calendar({ version: "v3", auth: oauth2Client });

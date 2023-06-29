@@ -5,6 +5,7 @@ export const REMOVE_CALENDAR_EVENTS = "REMOVE_CALENDAR_EVENTS";
 export const GET_JUNTAS = "GET_JUNTAS";
 export const DETAIL = "DETAIL";
 export const ADD_JUNTA = "ADD_JUNTA";
+export const ADD_TASK = "ADD_TASK";
  
 
 export const getGoogleSession = async () => {
@@ -71,6 +72,21 @@ export const createJunta = (payload) => async (dispatch) => {
       .then((response) => {
         dispatch({
           type: ADD_JUNTA,
+          payload: response.data,
+        });
+      });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createTask = (payload) => async (dispatch) => {
+  try {
+    await axios
+      .post("http://localhost:3001/api/createTask", payload)
+      .then((response) => {
+        dispatch({
+          type: ADD_TASK,
           payload: response.data,
         });
       });

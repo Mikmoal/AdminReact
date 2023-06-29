@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Participant.init({
     nombre: DataTypes.STRING,
+    apellido: DataTypes.STRING,
     email: DataTypes.STRING,
     rolId: DataTypes.INTEGER,
   }, {

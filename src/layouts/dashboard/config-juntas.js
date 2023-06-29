@@ -4,7 +4,7 @@ import { SvgIcon } from '@mui/material';
 export const juntas = [
   {
     title: 'Resumen',
-    path: '/resumen',
+    path: '/resumen/1',
     icon: (
       <SvgIcon fontSize="small">
         <UserGroupIcon />
