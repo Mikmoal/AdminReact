@@ -47,15 +47,15 @@ export const items = [
   //     </SvgIcon>
   //   )
   // },
-  {
-    title: 'Google Chat/Spaces',
-    path: '/googleChat',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserPlusIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Google Chat/Spaces',
+  //   path: '/googleChat',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserPlusIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   // {
   //   title: 'Google Keep',
   //   path: '/googleKeep',

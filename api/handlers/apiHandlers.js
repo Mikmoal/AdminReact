@@ -3,6 +3,7 @@ require("dotenv").config();
 // const http = require("http");
 const https = require("https");
 const url = require("url");
+const modeloJunta = require("../models").Junta;
 
 ///////////// AUTENTICACIÓN
 /**
@@ -64,6 +65,8 @@ const handleOAuthCallback = async (req, res) => {
     // Aquí puedes acceder a los tokens de acceso y de actualización
     const accessToken = tokens.access_token;
     const refreshToken = tokens.refresh_token;
+
+    console.log(accessToken);
 
     res.redirect("http://localhost:3000/gestion");
   } catch (error) {
@@ -170,6 +173,14 @@ const getJuntas = async (req, res) => {
         });
       }
     });
+
+    //Ingresar juntas a BD
+    // eventosClean.forEach(el => {
+    //   modeloJunta
+    // .create(el)
+    // })
+    
+
 
     res.status(200).json(eventosClean);
   } catch (error) {

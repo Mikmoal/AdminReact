@@ -63,6 +63,7 @@ export const SideNav = (props) => {
             }}
           >
             <Logo />
+            {/* Aqui ponemos el nombre */}
           </Box>
           <Box
             sx={{

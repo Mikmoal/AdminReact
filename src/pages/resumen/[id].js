@@ -29,151 +29,133 @@ import FormTask from "../../components/formTask";
 
 const now = new Date();
 
-function renderizarDetail(junta) {
+const Page = (props) => {
   //Estado para el modal
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const evidences = []
-  junta.Tasks.forEach(el => {
-
-    el.Evidence.forEach(el => {
-      
-      evidences.push({
-        id: el.id,
-        name: el.link,
-        updatedAt: el.updatedAt
-      })
-
-    })
-
-  })
-
-  // const grabacions = []
-  // junta.Grabacions.forEach(el => {
-  //   grabacions.push({
-  //     id: el.id,
-  //     name: el.link,
-  //     updatedAt: el.updatedAt
-  //   })
-  // })
-
-  const grabaciones = junta.Grabacions.map(el => {
-    return {
-      id: el.id,
-      name: el.link,
-      updatedAt: el.updatedAt
-    }
-  })
-
-  return (
-    <Box
-      component="main"
-      sx={{
-        flexGrow: 1,
-        py: 1,
-      }}
-    >
-      <Container maxWidth="lg">
-        <Grid container spacing={3}>
-          <Grid xs={12} md={12} lg={8}>
-            <Typography variant="h4">Resumen</Typography>
-            <Button
-              color="inherit"
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <ArrowUpOnSquareIcon />
-                </SvgIcon>
-              }
-            >
-              Reagendar
-            </Button>
-            <Button
-              color="inherit"
-              startIcon={
-                <SvgIcon fontSize="small">
-                  <ArrowUpOnSquareIcon />
-                </SvgIcon>
-              }
-            >
-              Unirse
-            </Button>
-            <div>
-                <Button
-                  startIcon={
-                    <SvgIcon fontSize="small">
-                      <PlusIcon />
-                    </SvgIcon>
-                  }
-                  variant="contained"
-                  onClick={handleOpen}
-                >
-                  Nueva tarea
-                </Button>
-                <Modal
-                  keepMounted
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="keep-mounted-modal-title"
-                  aria-describedby="keep-mounted-modal-description"
-                >
-                  <FormTask/>
-                </Modal>
-              </div>
-          </Grid>
-          <Grid xs={12} md={12} lg={8}>
-            <OverviewJuntas />
-          </Grid>
-          <Grid xs={12} md={12} lg={8}>
-            <OverviewTasks tareas={junta.Tasks} sx={{ height: "100%" }} />
-          </Grid>
-          <Grid xs={12} md={6} lg={4}>
-            <OverviewEvidence evidencias={evidences} sx={{ height: "100%" }} />
-          </Grid>
-          <Grid xs={12} md={6} lg={4}>
-            <OverviewParticipants participantes={junta.integrantes} sx={{ height: "100%" }} />
-          </Grid>
-          <Grid xs={12} md={6} lg={4}>
-            <OverviewRecords grabaciones={grabaciones} sx={{ height: "100%" }} />
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
-  );
-}
-
-const Page = (props) => {
   const router = useRouter();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (router.isReady) {
-      const {id} = router.query;
+      const { id } = router.query;
 
       console.log("This is de id: " + id);
       console.log(router.query);
       dispatch(getById(id));
     }
-    
   }, [router.isReady, dispatch]);
 
   const junta = useSelector((state) => state.detail);
   console.log(Array.isArray(junta.datos));
   console.log(junta.datos);
 
+  let evidences = [];
+  let grabaciones = [];
+
   return (
     <>
       <Head>
         <title>Resumen de junta</title>
       </Head>
-      {!router.isReady||!junta.datos ? (
+      {!router.isReady || !junta.datos ? (
         <div>
           <p>Loading</p>
         </div>
       ) : (
-        renderizarDetail(junta.datos)
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            py: 1,
+          }}
+        >
+          <Container maxWidth="lg">
+            <Grid container spacing={3}>
+              <Grid xs={12} md={12} lg={8}>
+                <Typography variant="h4">Resumen</Typography>
+                <Button
+                  color="inherit"
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <ArrowUpOnSquareIcon />
+                    </SvgIcon>
+                  }
+                >
+                  Reagendar
+                </Button>
+                <Button
+                  color="inherit"
+                  startIcon={
+                    <SvgIcon fontSize="small">
+                      <ArrowUpOnSquareIcon />
+                    </SvgIcon>
+                  }
+                >
+                  Unirse
+                </Button>
+                <div>
+                  <Button
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <PlusIcon />
+                      </SvgIcon>
+                    }
+                    variant="contained"
+                    onClick={handleOpen}
+                  >
+                    Nueva tarea
+                  </Button>
+                  <Modal
+                    keepMounted
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="keep-mounted-modal-title"
+                    aria-describedby="keep-mounted-modal-description"
+                  >
+                    <FormTask />
+                  </Modal>
+                </div>
+              </Grid>
+              <Grid xs={12} md={12} lg={8}>
+                <OverviewJuntas />
+              </Grid>
+              <Grid xs={12} md={12} lg={8}>
+                <OverviewTasks tareas={junta.datos.Tasks} sx={{ height: "100%" }} />
+              </Grid>
+              <Grid xs={12} md={6} lg={4}>
+                {junta.datos.Tasks.forEach((el) => {
+                  el.Evidence.forEach((el) => {
+                    evidences.push({
+                      id: el.id,
+                      name: el.link,
+                      updatedAt: el.updatedAt,
+                    });
+                  });
+                })}
+                <OverviewEvidence evidencias={evidences} sx={{ height: "100%" }} />
+              </Grid>
+              <Grid xs={12} md={6} lg={4}>
+                <OverviewParticipants
+                  participantes={junta.datos.integrantes}
+                  sx={{ height: "100%" }}
+                />
+              </Grid>
+              <Grid xs={12} md={6} lg={4}>
+                {junta.datos.Grabacions.forEach((el) => {
+                  grabaciones.push({
+                    id: el.id,
+                    name: el.link,
+                    updatedAt: el.updatedAt,
+                  });
+                })}
+                <OverviewRecords grabaciones={grabaciones} sx={{ height: "100%" }} />
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
       )}
     </>
   );

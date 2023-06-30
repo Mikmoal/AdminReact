@@ -44,7 +44,7 @@ const Page = () => {
         data-context="signin"
         data-ux_mode="popup"
         data-login_uri="http://localhost:3001/api"
-        data-auto_prompt="false"
+        data-auto_prompt="true"
       ></div>
 
       <div
@@ -69,8 +69,8 @@ const Page = () => {
           py: 8,
         }}
       >
-        <Stack spacing={2}>
-          <Typography>Racing Cargo</Typography>
+        <Stack direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
+          <Typography variant="h4">Racing Cargo</Typography>
           {boton}
         </Stack>
       </Box>
