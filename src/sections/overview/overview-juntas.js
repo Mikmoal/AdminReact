@@ -18,7 +18,7 @@ import {
 import { Scrollbar } from "src/components/scrollbar";
 import { SeverityPill } from "src/components/severity-pill";
 import { useDispatch, useSelector } from "react-redux";
-import { getJuntasFromBack } from "../../redux/actions";
+import { getJuntasFromBack, getJuntasFromDataBase } from "../../redux/actions";
 import React, { useEffect, useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 
@@ -33,10 +33,11 @@ export const OverviewJuntas = (props) => {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getJuntasFromBack());
+    dispatch(getJuntasFromDataBase());
   }, [dispatch]);
 
-  const juntas = useSelector((state) => state.juntas);
+  const juntas = useSelector((state) => state.db_juntas);
+  console.log(juntas);
 
   return (
     <Card>
@@ -50,15 +51,21 @@ export const OverviewJuntas = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {juntas.map((junta) => {
-                return (
-                  <TableRow hover key={junta.id}>
-                    <TableCell>
-                      <Link href={`/resumen/${props.id}`}>{junta.nombre}</Link>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {!juntas.datos ? (
+                <div>
+                  <p>Loading</p>
+                </div>
+              ) : (
+                juntas.datos.map((junta) => {
+                  return (
+                    <TableRow hover key={junta.id}>
+                      <TableCell>
+                        <Link href={`/resumen/${junta.id}`}>{junta.nombre}</Link>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         </Box>

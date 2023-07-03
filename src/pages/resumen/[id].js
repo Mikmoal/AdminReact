@@ -1,6 +1,5 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
 import Head from "next/head";
 import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import {
@@ -26,6 +25,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useCallback, useMemo, useState } from "react";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import FormTask from "../../components/formTask";
+import VerticalTabs from "../../components/verticalTabs";
 
 const now = new Date();
 
@@ -96,7 +96,8 @@ const Page = (props) => {
                 >
                   Unirse
                 </Button>
-                <div>
+
+                <Stack spacing={1} direction="row">
                   <Button
                     startIcon={
                       <SvgIcon fontSize="small">
@@ -108,6 +109,28 @@ const Page = (props) => {
                   >
                     Nueva tarea
                   </Button>
+                  <Button
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <PlusIcon />
+                      </SvgIcon>
+                    }
+                    variant="contained"
+                    onClick={handleOpen}
+                  >
+                    Añadir link de evidencia
+                  </Button>
+                  <Button
+                    startIcon={
+                      <SvgIcon fontSize="small">
+                        <PlusIcon />
+                      </SvgIcon>
+                    }
+                    variant="contained"
+                    onClick={handleOpen}
+                  >
+                    Añadir link de grabacion
+                  </Button>
                   <Modal
                     keepMounted
                     open={open}
@@ -117,14 +140,12 @@ const Page = (props) => {
                   >
                     <FormTask />
                   </Modal>
-                </div>
-              </Grid>
-              <Grid xs={12} md={12} lg={8}>
-                <OverviewJuntas />
+                </Stack>
               </Grid>
               <Grid xs={12} md={12} lg={8}>
                 <OverviewTasks tareas={junta.datos.Tasks} sx={{ height: "100%" }} />
               </Grid>
+
               <Grid xs={12} md={6} lg={4}>
                 {junta.datos.Tasks.forEach((el) => {
                   el.Evidence.forEach((el) => {

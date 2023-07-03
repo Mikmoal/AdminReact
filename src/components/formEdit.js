@@ -62,7 +62,7 @@ export default function FormTask() {
       <form noValidate onSubmit={formik.handleSubmit}>
         <Stack spacing={3}>
           <TextField
-            error={!!(formik.touched.nombre && formik.errors.nombre)}
+            disabled
             fullWidth
             helperText={formik.touched.nombre && formik.errors.nombre}
             label="Nombre"
@@ -102,7 +102,7 @@ export default function FormTask() {
             value={formik.values.status}
           />
           <TextField
-            error={!!(formik.touched.id_junta && formik.errors.id_junta)}
+            disabled
             fullWidth
             helperText={formik.touched.id_junta && formik.errors.id_junta}
             label="Id de junta"
@@ -121,6 +121,8 @@ export default function FormTask() {
             onChange={formik.handleChange}
             value={formik.values.encargado}
           />
+          <TextField required id="outlined-required" label="Link de evidencia" />
+          <TextField required id="outlined-required" label="Link de grabacion" />
         </Stack>
         {formik.errors.submit && (
           <Typography color="error" sx={{ mt: 3 }} variant="body2">

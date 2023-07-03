@@ -6,6 +6,7 @@ export const GET_JUNTAS = "GET_JUNTAS";
 export const DETAIL = "DETAIL";
 export const ADD_JUNTA = "ADD_JUNTA";
 export const ADD_TASK = "ADD_TASK";
+export const GET_JUNTAS_DB = "GET_JUNTAS_DB";
  
 
 export const getGoogleSession = async () => {
@@ -32,6 +33,20 @@ export const getJuntasFromBack = () => async (dispatch) => {
   await axios.get("http://localhost:3001/api/juntas").then((response) => {
     dispatch({
       type: GET_JUNTAS,
+      payload: response.data,
+    })
+  })
+  .catch((error) => {
+    return error;
+  })
+
+  // await axios.get("http://localhost:3001/api/getJuntasDB")
+}
+
+export const getJuntasFromDataBase = () => async (dispatch) => {
+  await axios.get("http://localhost:3001/api/getJuntasDB").then((response) => {
+    dispatch({
+      type: GET_JUNTAS_DB,
       payload: response.data,
     })
   })

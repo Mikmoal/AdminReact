@@ -12,6 +12,7 @@ import { JuntasTable } from "../sections/gestion/gestion-table";
 import { getJuntasFromBack } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import FormJuta from "../components/formJunta";
+import { OverviewJuntas } from "../sections/overview/overview-juntas";
 
 const now = new Date();
 
@@ -151,7 +152,7 @@ const Page = () => {
               </div>
             </Stack>
             {/* <CustomersSearch /> */}
-            <JuntasTable
+            {/* <JuntasTable
               count={juntas.length}
               items={juntas}
               onDeselectAll={customersSelection.handleDeselectAll}
@@ -163,7 +164,8 @@ const Page = () => {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
-            />
+            /> */}
+            <OverviewJuntas/>
           </Stack>
         </Container>
       </Box>

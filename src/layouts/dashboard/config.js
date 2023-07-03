@@ -21,7 +21,7 @@ export const items = [
   //   )
   // },
   {
-    title: 'Gestionar juntas',
+    title: 'Mis juntas',
     path: '/gestion',
     icon: (
       <SvgIcon fontSize="small">

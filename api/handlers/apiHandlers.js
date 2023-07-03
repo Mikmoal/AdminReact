@@ -86,8 +86,6 @@ async function getEventsLittle(calendar, id) {
   return res.data;
 }
 
-
-
 let indiceCalendarJuntas;
 
 const getUsersFromGoogleAPI = async (req,res) => {
@@ -113,10 +111,6 @@ const getUsersFromGoogleAPI = async (req,res) => {
     // Aquí puedes guardar los usuarios en tu base de datos
   });
 }
-
-
-
-
 
 const getEvents = async (req, res) => {
   try {

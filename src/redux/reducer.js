@@ -5,7 +5,8 @@ import {
   GET_JUNTAS,
   DETAIL,
   ADD_JUNTA,
-  ADD_TASK
+  ADD_TASK,
+  GET_JUNTAS_DB
 } from "./actions";
 
 const initialState = {
@@ -15,7 +16,8 @@ const initialState = {
   juntas: [],
   detail: {},
   newJunta: {},
-  newTask: {}
+  newTask: {},
+  db_juntas: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -108,6 +110,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         newTask: action.payload 
+      }
+    case GET_JUNTAS_DB:
+      return {
+        ...state,
+        db_juntas: action.payload
       }
 
     default:
