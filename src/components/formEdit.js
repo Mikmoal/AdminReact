@@ -33,7 +33,8 @@ export default function FormTask() {
       try {
         dispatch(createTask(values));
         alert("Tarea creada");
-        router.push(`/resumen/${values.id_junta}`); /// CERRAR MODAL
+        //router.push(`/resumen/${values.id_junta}`); /// CERRAR MODAL
+        window.location.reload() /// CERRAR MODAL
       } catch (err) {
         console.log(err);
         helpers.setStatus({ success: false });

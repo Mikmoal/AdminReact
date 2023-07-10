@@ -13,7 +13,6 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
-import { subDays, subHours } from "date-fns";
 import { OverviewTasks } from "src/sections/overview/overview-tasks";
 import { OverviewParticipants } from "src/sections/overview/overview-participantes";
 import { OverviewRecords } from "../../sections/overview/overview-grabaciones";
@@ -22,18 +21,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { OverviewJuntas } from "../../sections/overview/overview-juntas";
 import { getById } from "../../redux/actions";
 import { useRouter } from "next/router";
-import React, { useEffect, useCallback, useMemo, useState } from "react";
+import React, { useEffect,useState } from "react";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import FormTask from "../../components/formTask";
-import VerticalTabs from "../../components/verticalTabs";
+import FormEvidence from "../../components/formEvidence";
+import FormRecord from "../../components/formRecord";
+
 
 const now = new Date();
 
 const Page = (props) => {
-  //Estado para el modal
+  //Estado para el modal Minuta
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  
+
+  //Estado para el modal Grabacion
+  const [openRecord, setOpenRecord] = useState(false);
+  const handleOpenRecord = () => setOpenRecord(true);
+  const handleCloseRecord = () => setOpenRecord(false);
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -42,14 +50,14 @@ const Page = (props) => {
     if (router.isReady) {
       const { id } = router.query;
 
-      console.log("This is de id: " + id);
-      console.log(router.query);
+      // console.log("This is id: " + id);
+      // console.log(router.query);
       dispatch(getById(id));
     }
   }, [router.isReady, dispatch]);
 
   const junta = useSelector((state) => state.detail);
-  console.log(Array.isArray(junta.datos));
+  // console.log(Array.isArray(junta.datos));
   console.log(junta.datos);
 
   let evidences = [];
@@ -74,9 +82,10 @@ const Page = (props) => {
         >
           <Container maxWidth="lg">
             <Grid container spacing={3}>
+
               <Grid xs={12} md={12} lg={8}>
-                <Typography variant="h4">Resumen</Typography>
-                <Button
+                <Typography variant="h5" py={3}>Resumen de {junta.datos.nombre}</Typography>
+                {/* <Button
                   color="inherit"
                   startIcon={
                     <SvgIcon fontSize="small">
@@ -95,7 +104,7 @@ const Page = (props) => {
                   }
                 >
                   Unirse
-                </Button>
+                </Button> */}
 
                 <Stack spacing={1} direction="row">
                   <Button
@@ -107,27 +116,17 @@ const Page = (props) => {
                     variant="contained"
                     onClick={handleOpen}
                   >
-                    Nueva tarea
+                    Nueva minuta
                   </Button>
+                  
                   <Button
                     startIcon={
                       <SvgIcon fontSize="small">
                         <PlusIcon />
                       </SvgIcon>
                     }
-                    variant="contained"
-                    onClick={handleOpen}
-                  >
-                    Añadir link de evidencia
-                  </Button>
-                  <Button
-                    startIcon={
-                      <SvgIcon fontSize="small">
-                        <PlusIcon />
-                      </SvgIcon>
-                    }
-                    variant="contained"
-                    onClick={handleOpen}
+                    variant="outlined"
+                    onClick={handleOpenRecord}
                   >
                     Añadir link de grabacion
                   </Button>
@@ -138,11 +137,22 @@ const Page = (props) => {
                     aria-labelledby="keep-mounted-modal-title"
                     aria-describedby="keep-mounted-modal-description"
                   >
-                    <FormTask />
+                    <FormTask id_junta={junta.datos.id}/>
+                  </Modal>
+                  
+                  <Modal
+                    keepMounted
+                    open={openRecord}
+                    onClose={handleCloseRecord}
+                    aria-labelledby="keep-mounted-modal-title"
+                    aria-describedby="keep-mounted-modal-description"
+                  >
+                    <FormRecord id_junta={junta.datos.id}/>
                   </Modal>
                 </Stack>
               </Grid>
-              <Grid xs={12} md={12} lg={8}>
+
+              <Grid xs={12} md={12} lg={12}>
                 <OverviewTasks tareas={junta.datos.Tasks} sx={{ height: "100%" }} />
               </Grid>
 
@@ -158,12 +168,14 @@ const Page = (props) => {
                 })}
                 <OverviewEvidence evidencias={evidences} sx={{ height: "100%" }} />
               </Grid>
+
               <Grid xs={12} md={6} lg={4}>
                 <OverviewParticipants
                   participantes={junta.datos.integrantes}
                   sx={{ height: "100%" }}
                 />
               </Grid>
+
               <Grid xs={12} md={6} lg={4}>
                 {junta.datos.Grabacions.forEach((el) => {
                   grabaciones.push({
@@ -174,6 +186,7 @@ const Page = (props) => {
                 })}
                 <OverviewRecords grabaciones={grabaciones} sx={{ height: "100%" }} />
               </Grid>
+
             </Grid>
           </Container>
         </Box>

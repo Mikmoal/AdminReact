@@ -217,7 +217,7 @@ const deleteJunta = (req, res) => {
       where: { id: req.params.id },
     })
     .then((data) => {
-      res.json({ datos: data });
+      res.json({ datos: data, id: req.params.id });
     })
     .catch((error) => {
       res.json({ error: error });

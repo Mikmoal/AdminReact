@@ -6,7 +6,10 @@ import {
   DETAIL,
   ADD_JUNTA,
   ADD_TASK,
-  GET_JUNTAS_DB
+  GET_JUNTAS_DB,
+  DELETE_JUNTA,
+  ADD_EVIDENCE,
+  ADD_RECORD
 } from "./actions";
 
 const initialState = {
@@ -17,7 +20,10 @@ const initialState = {
   detail: {},
   newJunta: {},
   newTask: {},
-  db_juntas: []
+  db_juntas: [],
+  deleteJunta: {},
+  newEvidence: {},
+  newRecord: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -115,6 +121,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         db_juntas: action.payload
+      }
+    case DELETE_JUNTA:
+      return {
+        ...state,
+        db_juntas: db_juntas.filter(el => el.id !== action.payload.id)
       }
 
     default:

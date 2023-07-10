@@ -33,7 +33,7 @@ export const OverviewRecords = (props) => {
               divider={hasDivider}
               key={grabacion.id}
             >
-              <ListItemAvatar>
+              {/* <ListItemAvatar>
                 {
                   grabacion.image
                     ? (
@@ -58,7 +58,7 @@ export const OverviewRecords = (props) => {
                       />
                     )
                 }
-              </ListItemAvatar>
+              </ListItemAvatar> */}
               <ListItemText
                 primary={grabacion.name}
                 primaryTypographyProps={{ variant: 'subtitle1' }}

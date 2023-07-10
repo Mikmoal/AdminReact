@@ -38,7 +38,7 @@ router.post("/createJunta", createJunta);
 router.get("/getJuntasDB", getJuntasDB);
 router.get("/getJuntasDB/:id", getJuntaDBById);
 router.put("/updateJunta", updateJunta);
-router.delete("/deleteJunta", deleteJunta);
+router.delete("/deleteJunta/:id", deleteJunta);
 
 // CRUD de Grabacion
 router.post("/createGrabacion", createGrabacion);

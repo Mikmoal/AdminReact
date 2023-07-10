@@ -9,10 +9,11 @@ import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { applyPagination } from "src/utils/apply-pagination";
 import { JuntasTable } from "../sections/gestion/gestion-table";
-import { getJuntasFromBack } from "../redux/actions";
+import { getJuntasFromBack, getJuntasFromDataBase } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import FormJuta from "../components/formJunta";
+import FormJunta from "../components/formJunta";
 import { OverviewJuntas } from "../sections/overview/overview-juntas";
+import SearchBar from "../components/SearchBar";
 
 const now = new Date();
 
@@ -92,10 +93,10 @@ const Page = () => {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getJuntasFromBack());
+    dispatch(getJuntasFromDataBase());
   }, [dispatch]);
 
-  const juntas = useSelector((state) => state.juntas);
+  let juntas = useSelector((state) => state.db_juntas);
 
   //Estado para el modal
   const [open, setOpen] = useState(false);
@@ -147,8 +148,9 @@ const Page = () => {
                   aria-labelledby="keep-mounted-modal-title"
                   aria-describedby="keep-mounted-modal-description"
                 >
-                  <FormJuta/>
+                  <FormJunta/>
                 </Modal>
+                <SearchBar/>
               </div>
             </Stack>
             {/* <CustomersSearch /> */}
@@ -165,7 +167,14 @@ const Page = () => {
               rowsPerPage={rowsPerPage}
               selected={customersSelection.selected}
             /> */}
-            <OverviewJuntas/>
+            {!juntas.datos ? (
+              <div>
+                <p>Loading</p>
+              </div>
+            ) : (
+              <OverviewJuntas juntas={juntas.datos}/>
+            )}
+            
           </Stack>
         </Container>
       </Box>

@@ -2,6 +2,7 @@ import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
 import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import EllipsisVerticalIcon from '@heroicons/react/24/solid/EllipsisVerticalIcon';
+
 import {
   Box,
   Button,
@@ -33,32 +34,36 @@ export const OverviewParticipants = (props) => {
               divider={hasDivider}
               key={participante.id}
             >
-              <ListItemAvatar>
+              {/* <ListItemAvatar>
                 {
                   participante.image
+                  
                     ? (
                       <Box
                         component="img"
                         src={participante.image}
                         sx={{
                           borderRadius: 1,
-                          height: 48,
-                          width: 48
+                          height: 40,
+                          width: 40
                         }}
                       />
                     )
                     : (
                       <Box
+                      component="img"
+                        
                         sx={{
                           borderRadius: 1,
                           backgroundColor: 'neutral.200',
                           height: 48,
                           width: 48
                         }}
+                        alt="profilePicture"
                       />
                     )
                 }
-              </ListItemAvatar>
+              </ListItemAvatar> */}
               <ListItemText
                 primary={participante}
                 primaryTypographyProps={{ variant: 'subtitle1' }}

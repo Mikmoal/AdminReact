@@ -8,7 +8,7 @@ import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { createTask } from "../redux/actions";
 
-export default function FormTask() {
+export default function FormTask(props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const formik = useFormik({
@@ -17,23 +17,23 @@ export default function FormTask() {
       descripcion: "",
       fecha_entrega: "",
       status: "",
-      id_junta: "",
+      id_junta: props.id_junta,
       encargado: "",
       submit: "",
     },
     validationSchema: Yup.object({
-      nombre: Yup.string().max(255).required("Nombre es requerido"),
-      descripcion: Yup.string().max(255).required(" es requerido"),
+      nombre: Yup.string().max(255).required("El título es requerido"),
+      // descripcion: Yup.string().max(255).required(" es requerido"),
       fecha_entrega: Yup.date().required("La fecha es requerida"),
       status: Yup.string().max(255).required(" es requerido"),
-      id_junta: Yup.string().max(255).required(" es requerido"),
       encargado: Yup.string().max(255).required(" es requerido"),
     }),
     onSubmit: async (values, helpers) => {
       try {
         dispatch(createTask(values));
         alert("Tarea creada");
-        router.push(`/resumen/${values.id_junta}`); /// CERRAR MODAL
+        // router.push(`/resumen/${values.id_junta}`); /// CERRAR MODAL
+        window.location.reload() /// CERRAR MODAL
       } catch (err) {
         console.log(err);
         helpers.setStatus({ success: false });
@@ -62,10 +62,11 @@ export default function FormTask() {
       <form noValidate onSubmit={formik.handleSubmit}>
         <Stack spacing={3}>
           <TextField
+            required
             error={!!(formik.touched.nombre && formik.errors.nombre)}
             fullWidth
             helperText={formik.touched.nombre && formik.errors.nombre}
-            label="Nombre"
+            label="Título de la minuta"
             name="nombre"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -101,7 +102,7 @@ export default function FormTask() {
             onChange={formik.handleChange}
             value={formik.values.status}
           />
-          <TextField
+          {/* <TextField
             error={!!(formik.touched.id_junta && formik.errors.id_junta)}
             fullWidth
             helperText={formik.touched.id_junta && formik.errors.id_junta}
@@ -110,7 +111,7 @@ export default function FormTask() {
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.id_junta}
-          />
+          /> */}
           <TextField
             error={!!(formik.touched.encargado && formik.errors.encargado)}
             fullWidth

@@ -13,7 +13,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       descripcion: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       fecha_entrega: {
         type: Sequelize.DATE

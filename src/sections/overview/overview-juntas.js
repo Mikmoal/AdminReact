@@ -8,19 +8,27 @@ import {
   CardActions,
   CardHeader,
   Divider,
+  IconButton,
   SvgIcon,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  Modal,
+  Tooltip
 } from "@mui/material";
 import { Scrollbar } from "src/components/scrollbar";
 import { SeverityPill } from "src/components/severity-pill";
 import { useDispatch, useSelector } from "react-redux";
-import { getJuntasFromBack, getJuntasFromDataBase } from "../../redux/actions";
-import React, { useEffect, useCallback, useMemo, useState } from "react";
+import { getJuntasFromDataBase, deleteJunta } from "../../redux/actions";
+import React, { useEffect, useCallback, useMemo, useState, useRef } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { isFunction } from "formik";
+import FormJunta from "../../components/formJunta";
+import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 
 const statusMap = {
   pending: "warning",
@@ -29,15 +37,28 @@ const statusMap = {
 };
 
 export const OverviewJuntas = (props) => {
-  // const { orders = [], sx } = props;
+  const router = useRouter();
+  //Estado para el modal
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   let dispatch = useDispatch();
+
+  const [meetings, setMeetings] = useState(props.juntas);
 
   useEffect(() => {
     dispatch(getJuntasFromDataBase());
-  }, [dispatch]);
+    console.log('useEffect');
+    
+  },[dispatch, meetings]);
 
-  const juntas = useSelector((state) => state.db_juntas);
-  console.log(juntas);
+
+  const handleDeleteJuntas = (id) => {
+    deleteJunta(id)
+    let newJuntas = meetings.filter((el) => el.id !== id);
+    setMeetings(newJuntas);
+  };
 
   return (
     <Card>
@@ -51,16 +72,39 @@ export const OverviewJuntas = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!juntas.datos ? (
+              {!meetings ? (
                 <div>
                   <p>Loading</p>
                 </div>
-              ) : (
-                juntas.datos.map((junta) => {
+              // ) : Array.isArray(newJuntas) ? (
+              //   newJuntas.map((junta) => {
+              //     return (
+              //       <TableRow hover key={junta.id}>
+              //         <TableCell>
+              //           <Link href={`/resumen/${junta.id}`}>{junta.nombre}</Link>
+              //         </TableCell>
+              //         <TableCell>
+              //           <IconButton onClick={() => handleDeleteJuntas(junta.id)}>
+              //             <DeleteIcon fontSize="small" />
+              //           </IconButton>
+              //         </TableCell>
+              //       </TableRow>
+              //     );
+              //   })
+              // ) : (
+
+                ) : ( meetings.map((junta) => {
                   return (
                     <TableRow hover key={junta.id}>
                       <TableCell>
                         <Link href={`/resumen/${junta.id}`}>{junta.nombre}</Link>
+                      </TableCell>
+                      <TableCell>
+                        <Tooltip title="Delete">
+                          <IconButton onClick={() => handleDeleteJuntas(junta.id)}>
+                            <DeleteIcon fontSize="small" />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );

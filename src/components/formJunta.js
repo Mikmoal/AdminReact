@@ -7,8 +7,10 @@ import * as Yup from "yup";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { createJunta } from "../redux/actions";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function FormJuta() {
+export default function FormJunta() {
   const dispatch = useDispatch();
   const router = useRouter();
   const formik = useFormik({
@@ -35,7 +37,7 @@ export default function FormJuta() {
       try {
         dispatch(createJunta(values));
         alert("Junta created");
-        router.push(`/resumen/${values.id_junta}`); /// CERRAR MODAL
+        window.location.reload() /// CERRAR MODAL
       } catch (err) {
         console.log(err);
         helpers.setStatus({ success: false });
@@ -50,7 +52,7 @@ export default function FormJuta() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 800,
     bgcolor: "background.paper",
     border: "2px solid #000",
     boxShadow: 24,
@@ -58,9 +60,11 @@ export default function FormJuta() {
   };
   return (
     <Box sx={style} noValidate autoComplete="off">
+
       <Stack spacing={1} sx={{ mb: 3 }}>
         <Typography variant="h6">Nueva Junta</Typography>
       </Stack>
+
       <form noValidate onSubmit={formik.handleSubmit}>
         <Stack spacing={3}>
           <TextField
@@ -93,6 +97,8 @@ export default function FormJuta() {
             onChange={formik.handleChange}
             value={formik.values.fecha_ejecucion}
           />
+          <DatePicker 
+            label="Fecha de ejecucion"/>
           <TextField
             error={!!(formik.touched.hora_inicio && formik.errors.hora_inicio)}
             fullWidth
@@ -134,15 +140,19 @@ export default function FormJuta() {
             value={formik.values.sala_juntas}
           />
         </Stack>
+
         {formik.errors.submit && (
           <Typography color="error" sx={{ mt: 3 }} variant="body2">
             {formik.errors.submit}
           </Typography>
         )}
+
         <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
           Guardar
         </Button>
+        
       </form>
+
     </Box>
   );
 }

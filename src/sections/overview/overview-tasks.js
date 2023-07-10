@@ -1,6 +1,6 @@
-import { format } from 'date-fns';
-import PropTypes from 'prop-types';
-import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
+import { format } from "date-fns";
+import PropTypes from "prop-types";
+import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
 import {
   Box,
   Button,
@@ -13,40 +13,43 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
-} from '@mui/material';
-import { Scrollbar } from 'src/components/scrollbar';
-import { SeverityPill } from 'src/components/severity-pill';
+  TableRow,
+  Modal
+} from "@mui/material";
+import { Scrollbar } from "src/components/scrollbar";
+import { SeverityPill } from "src/components/severity-pill";
+import FormEvidence from "../../components/formEvidence";
+import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import React, { useEffect,useState } from "react";
 
 const statusMap = {
-  pending: 'warning',
-  delivered: 'success',
-  refunded: 'error'
+  pending: "warning",
+  delivered: "success",
+  refunded: "error",
 };
 
 export const OverviewTasks = (props) => {
+
+  //Estado para el modal Evidencia
+  const [openEvidence, setOpenEvidence] = useState(false);
+  const handleOpenEvidence = () => setOpenEvidence(true);
+  const handleCloseEvidence = () => setOpenEvidence(false);
+
   const { tareas = [], sx } = props;
 
   return (
     <Card sx={sx}>
-      <CardHeader title="Tareas" />
+      <CardHeader title="Minutas" />
       <Scrollbar sx={{ flexGrow: 1 }}>
-        <Box sx={{ minWidth: 800 }}>
+        <Box sx={{ minWidth: 700 }}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
-                  ID task
-                </TableCell>
-                <TableCell>
-                  Encargado de minuta
-                </TableCell>
-                <TableCell sortDirection="desc">
-                  Fecha
-                </TableCell>
-                <TableCell>
-                  Status
-                </TableCell>
+                <TableCell>Nombre minuta</TableCell>
+                <TableCell>Encargado de minuta</TableCell>
+                <TableCell sortDirection="desc">Fecha de entrega</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -54,23 +57,34 @@ export const OverviewTasks = (props) => {
                 //const createdAt = format(tarea.createdAt, 'dd/MM/yyyy');
 
                 return (
-                  <TableRow
-                    hover
-                    key={tarea.id}
-                  >
+                  <TableRow hover key={tarea.id}>
+                    <TableCell>{tarea.nombre}</TableCell>
+                    <TableCell>{tarea.encargado}</TableCell>
+                    <TableCell>{tarea.fecha_entrega.substring(0, 10)}</TableCell>
                     <TableCell>
-                      {tarea.id}
+                      <SeverityPill color={statusMap[tarea.status]}>{tarea.status}</SeverityPill>
                     </TableCell>
                     <TableCell>
-                      encargado pendiente
-                    </TableCell>
-                    <TableCell>
-                      {tarea.createdAt}
-                    </TableCell>
-                    <TableCell>
-                      <SeverityPill color={statusMap[tarea.status]}>
-                        {tarea.status}
-                      </SeverityPill>
+                      <Button
+                        startIcon={
+                          <SvgIcon fontSize="small">
+                            <PlusIcon />
+                          </SvgIcon>
+                        }
+                        variant="contained"
+                        onClick={handleOpenEvidence}
+                      >
+                        Añadir link de evidencia
+                      </Button>
+                      <Modal
+                        keepMounted
+                        open={openEvidence}
+                        onClose={handleCloseEvidence}
+                        aria-labelledby="keep-mounted-modal-title"
+                        aria-describedby="keep-mounted-modal-description"
+                      >
+                        <FormEvidence id_task={tarea.id} />
+                      </Modal>
                     </TableCell>
                   </TableRow>
                 );
@@ -80,7 +94,7 @@ export const OverviewTasks = (props) => {
         </Box>
       </Scrollbar>
       <Divider />
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
+      {/* <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button
           color="inherit"
           endIcon={(
@@ -93,12 +107,12 @@ export const OverviewTasks = (props) => {
         >
           View all
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };
 
 OverviewTasks.prototype = {
   tareas: PropTypes.array,
-  sx: PropTypes.object
+  sx: PropTypes.object,
 };

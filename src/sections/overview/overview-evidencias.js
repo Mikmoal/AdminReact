@@ -33,7 +33,7 @@ export const OverviewEvidence = (props) => {
               divider={hasDivider}
               key={evidencia.id}
             >
-              <ListItemAvatar>
+              {/* <ListItemAvatar>
                 {
                   evidencia.image
                     ? (
@@ -58,7 +58,7 @@ export const OverviewEvidence = (props) => {
                       />
                     )
                 }
-              </ListItemAvatar>
+              </ListItemAvatar> */}
               <ListItemText
                 primary={evidencia.name}
                 primaryTypographyProps={{ variant: 'subtitle1' }}

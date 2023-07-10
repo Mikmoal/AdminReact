@@ -7,7 +7,27 @@ export const DETAIL = "DETAIL";
 export const ADD_JUNTA = "ADD_JUNTA";
 export const ADD_TASK = "ADD_TASK";
 export const GET_JUNTAS_DB = "GET_JUNTAS_DB";
+export const DELETE_JUNTA = "DELETE_JUNTA";
+export const ADD_EVIDENCE = "ADD_EVIDENCE";
+export const ADD_RECORD = "ADD_RECORD";
  
+export const deleteJunta = async (id) => {
+  await axios.delete(`http://localhost:3001/api/deleteJunta/${id}`).then(response => {
+    dispatch({
+      type: DELETE_JUNTA,
+      payload: response.data
+    })
+  })
+  .catch(error => {
+    return error
+  })
+}
+export const addEvidence = async () => {
+  
+}
+export const addRecord = async () => {
+  
+}
 
 export const getGoogleSession = async () => {
   await axios.get("http://localhost:3001/api").then(response => {
@@ -102,6 +122,34 @@ export const createTask = (payload) => async (dispatch) => {
       .then((response) => {
         dispatch({
           type: ADD_TASK,
+          payload: response.data,
+        });
+      });
+  } catch (error) {
+    return error;
+  }
+};
+export const createEvidence = (payload) => async (dispatch) => {
+  try {
+    await axios
+      .post("http://localhost:3001/api/createEvidence", payload)
+      .then((response) => {
+        dispatch({
+          type: ADD_EVIDENCE,
+          payload: response.data,
+        });
+      });
+  } catch (error) {
+    return error;
+  }
+};
+export const createRecord = (payload) => async (dispatch) => {
+  try {
+    await axios
+      .post("http://localhost:3001/api/createGrabacion", payload)
+      .then((response) => {
+        dispatch({
+          type: ADD_RECORD,
           payload: response.data,
         });
       });
