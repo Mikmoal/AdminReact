@@ -4,11 +4,12 @@ import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Link, Stack, TextField, Typography, Select, FormControl, MenuItem, InputLabel } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { createJunta } from "../redux/actions";
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import SelectJuntas from "./SelectJuntas";
 
 export default function FormJunta() {
   const dispatch = useDispatch();
@@ -77,6 +78,10 @@ export default function FormJunta() {
             onChange={formik.handleChange}
             value={formik.values.nombre}
           />
+          <TextField>
+            <SelectListas></SelectListas>
+          </TextField>
+          
           <TextField
             error={!!(formik.touched.integrantes && formik.errors.integrantes)}
             fullWidth

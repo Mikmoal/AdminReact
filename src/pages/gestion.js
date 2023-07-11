@@ -4,7 +4,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { subDays, subHours } from "date-fns";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { Box, Button, Container, Stack, SvgIcon, Typography, Modal } from "@mui/material";
+import { Box, Button, Container, Stack, SvgIcon, Typography, Modal, Unstable_Grid2 as Grid } from "@mui/material";
 import { useSelection } from "src/hooks/use-selection";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { applyPagination } from "src/utils/apply-pagination";

@@ -24,26 +24,33 @@ export default function BasicRowEditingGrid() {
 }
 
 const columns = [
-  { field: "name", headerName: "Nombre", width: 180, editable: true },
   {
-    field: "posicion",
-    headerName: "Posicion",
+    field: "numero",
+    headerName: "No.",
+    type: "number",
+    width: 80,
+    editable: true,
+  },
+  { field: "actividades", headerName: "Actividades", width: 250, editable: true },
+  {
+    field: "status",
+    headerName: "Status",
     type: "text",
     width: 200,
     editable: true,
   },
   {
-    field: "asistencia",
-    headerName: "Asistencia Si / No",
+    field: "responsable",
+    headerName: "Responsable",
     type: "text",
     width: 200,
     editable: true,
   },
   {
-    field: "motivo",
-    headerName: "Motivo",
-    type: "text",
-    width: 200,
+    field: "fecha",
+    headerName: "Fecha de entrega",
+    type: "date",
+    width: 220,
     editable: true,
   },
 ];
