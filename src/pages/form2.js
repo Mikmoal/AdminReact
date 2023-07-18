@@ -31,9 +31,9 @@ const Page = () => {
       p={1}
     >
       <Container maxWidth="xl">
-        <Grid container spacing={2}>
+        <Grid container direction="column" justifyContent="center" alignItems="center">
 
-          <Grid xs={2} sm={8} lg={3}>
+          <Grid>
             <SelectJuntas />
             <TextField
               id="outlined-multiline-static"
@@ -43,18 +43,19 @@ const Page = () => {
               defaultValue="Objetivo de la junta"
             />
             <TextField id="outlined-required" label="Lugar" defaultValue="sala" />
-            <LugarFechaHora/>
+            <LugarFechaHora />
           </Grid>
-          
-          <Grid xs={2} sm={6} lg={9}>
+
+          <Grid >
             <Asistentes />
           </Grid>
 
-          <Stack spacing={3}>
+          <Grid >
             <Actividades />
-          </Stack>
+          </Grid>
 
         </Grid>
+        
       </Container>
     </Box>
   );

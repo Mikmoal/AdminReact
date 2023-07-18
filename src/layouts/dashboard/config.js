@@ -38,6 +38,15 @@ export const items = [
       </SvgIcon>
     )
   },
+  {
+    title: 'Form nueva junta',
+    path: '/form2',
+    icon: (
+      <SvgIcon fontSize="small">
+        <CogIcon />
+      </SvgIcon>
+    )
+  },
   // {
   //   title: 'Google Calendar',
   //   path: '/googleCalendar',

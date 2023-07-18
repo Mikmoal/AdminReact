@@ -5,6 +5,10 @@ import CalendarList from "../sections/calendar/CalendarList";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getOtherCalendars } from "../redux/actions";
+import DateCalendarViews from "../components/DateCalendarViews";
+import ChipsViews from "../components/ChipsViews";
+import DateCalendarWeek from "../components/DateCalendarWeek";
+import TableJuntas from "../components/TableJuntas";
 
 const Page = () => {
   let dispatch = useDispatch();
@@ -15,23 +19,22 @@ const Page = () => {
 
   const calendarsRaw = useSelector((state) => state.calendarsRaw);
   const calendariosSeleccionados = useSelector((state) => state.calendariosSeleccionados);
-  let calendariosSeleccionadosClean = []
+  let calendariosSeleccionadosClean = [];
   if (calendariosSeleccionados.length) {
-    console.log("Aqui calendariosSeleccionados:")
-    console.log(calendariosSeleccionados)
+    console.log("Aqui calendariosSeleccionados:");
+    console.log(calendariosSeleccionados);
 
     // Originalmente habria [{id,events},{id,events},...]
     // transformar el estado de calendariosSeleccionados a [ {},{}] array de puros eventos
 
-    calendariosSeleccionados.map(el => {
-      calendariosSeleccionadosClean = [...el.events]
-    })
-
+    calendariosSeleccionados.map((el) => {
+      calendariosSeleccionadosClean = [...el.events];
+    });
   }
- 
+
   return (
     <>
-      {!calendarsRaw.length ? (
+      {/* {!calendarsRaw.length ? (
         <div>
           <p>Cargando...</p>
         </div>
@@ -50,12 +53,24 @@ const Page = () => {
               </Grid>
 
               <Grid xs={13} md={13} lg={9}>
-                <Calendar dataSource={calendariosSeleccionadosClean}/>
+                <Calendar dataSource={calendariosSeleccionadosClean} />
               </Grid>
             </Grid>
           </Container>
         </Box>
-      )}
+      )} */}
+      <Grid>
+        <DateCalendarViews />
+      </Grid>
+      <Grid>
+        <ChipsViews />
+      </Grid>
+      <Grid>
+      <DateCalendarWeek/>
+      </Grid>
+      <Grid>
+      <TableJuntas/>
+      </Grid>
     </>
   );
 };
